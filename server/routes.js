@@ -1,9 +1,9 @@
-const AuthController = require('./controllers/AuthController.js');
-const { isAdmin } = require('./helper.js');
+import { login, testIsAdmin } from './controllers/AuthController.js';
+import { isAdmin } from './helper.js';
 
-module.exports = function(/** @type { import('express').IRouter } */ app) {
-    app.post('/login', AuthController.login);
+export default function(/** @type { import('express').IRouter } */ app) {
+    app.post('/login', isAdmin, login);
 
     app.use('/admin', isAdmin);
-        app.get('/admin/test', AuthController.testIsAdmin);
+        app.get('/admin/test', testIsAdmin);
 }
