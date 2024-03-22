@@ -3,16 +3,6 @@ const db = require('./db');
 
 function delay(seconds) { return new Promise(res => setTimeout(res, seconds * 1000)); }
 
-function generateCode(charCount) {
-    const chars = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var result = '';
-    
-    for (var i = 0; i < charCount; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));  
-    }
-    return result;
-}
-
 function preflight(request, response, next) {
     if(request.method == 'OPTIONS') response.sendStatus(200);
     else next();
