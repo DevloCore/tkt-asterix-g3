@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Assurez-vous d'installer axios : npm install axios ou yarn add axios
+import axios from 'axios';
 import './App.css'; // Importez le fichier App.css
 
 function Menu() {
@@ -10,8 +10,8 @@ function Menu() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const attractionsResponse = await axios.get('http://localhost:3000/attractions');
-        const shopsResponse = await axios.get('http://localhost:3000/attractions');
+        const attractionsResponse = await axios.get('attractions');
+        const shopsResponse = await axios.get('attractions');
   
         // Vérifier si les réponses sont des tableaux avant de les mettre à jour
         if (Array.isArray(attractionsResponse.data) && Array.isArray(shopsResponse.data)) {

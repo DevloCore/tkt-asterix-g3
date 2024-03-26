@@ -1,9 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter as RouterProvider, createBrowserRouter, Routes, Route } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, Routes, Route } from 'react-router-dom'
 import Menu from './Menu.jsx'
 import Auth from './Auth.jsx'
 import './index.css'
+import axios from 'axios'
+
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("apiToken");
+  config.headers['Authorization'] = `Bearer ${token}`;
+  return config;
+})
+
+axios.defaults.baseURL = "http://localhost:3000/";
 
 const router = createBrowserRouter([
   { path: '/', element: <Menu /> },
@@ -13,10 +22,6 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router}>
-      <Routes>
-        <Route path="/" element={<Menu />} />
-        <Route path="/auth" element={<Auth />} />
-      </Routes>
-    </RouterProvider>
+  </RouterProvider>
   </React.StrictMode>,
 )
