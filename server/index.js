@@ -1,8 +1,8 @@
-const express = require('express');
-const { createServer } = require('node:http');
-const { originUrl, preflight } = require('./helper');
-
-const db = require('./db');
+import express from 'express';
+import { createServer } from 'http';
+import { originUrl, preflight } from './helper.js';
+import db from './db.js';
+import routes from './routes.js';
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(preflight);
 
 const server = createServer(app);
 
-require('./routes')(app);
+routes(app);
 
 server.listen(process.env.PORT || 3000, process.env.IP || '127.0.0.1', () => {
     console.log("Server running");
