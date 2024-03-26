@@ -1,6 +1,7 @@
 import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
 import { getAttractions } from './controllers/AttractionController.js';
+import { getCommerces } from './controllers/CommercesController.js';
 
 export default function(/** @type { import('express').IRouter } */ app) {
     // Définir la route POST pour la connexion
@@ -14,4 +15,7 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer toutes les attractions
     app.get('/attractions', getAttractions);
+
+    // Route GET pour récupérer toutes les commerces
+    app.get('/commerces', getCommerces);
 }
