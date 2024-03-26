@@ -1,13 +1,15 @@
-import Attraction from '../models/Attraction.js';
+import db from '../db.js';
 
-export async function getAttractions(req, res) {
+// Fonction pour récupérer toutes les attractions depuis la base de données
+export const getAttractions = async (req, res) => {
     try {
-        const attractions = await Attraction.findAll({
-            attributes: ['id', 'nom', 'description']
-        });
+        // Récupérer toutes les attractions depuis la base de données en utilisant knex
+        const attractions = await db.select().from('ATTRACTION');
+        
+        // Renvoyer les attractions récupérées en réponse
         res.json(attractions);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erreur lors de la récupération des attractions." });
+        console.error('Error while fetching attractions:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-}
+};

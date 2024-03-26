@@ -3,19 +3,19 @@ import axios from 'axios'; // Assurez-vous d'installer axios : npm install axios
 import './App.css'; // Importez le fichier App.css
 
 function Menu() {
-  const [rides, setRides] = useState([]);
+  const [attractions, setRides] = useState([]);
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const ridesResponse = await axios.get('/api/rides');
-        const shopsResponse = await axios.get('/api/shops');
+        const attractionsResponse = await axios.get('http://localhost:3000/attractions');
+        const shopsResponse = await axios.get('http://localhost:3000/attractions');
   
         // Vérifier si les réponses sont des tableaux avant de les mettre à jour
-        if (Array.isArray(ridesResponse.data) && Array.isArray(shopsResponse.data)) {
-          setRides(ridesResponse.data);
+        if (Array.isArray(attractionsResponse.data) && Array.isArray(shopsResponse.data)) {
+          setRides(attractionsResponse.data);
           setShops(shopsResponse.data);
         } else {
           console.error('Data received is not in expected format');
@@ -40,9 +40,9 @@ function Menu() {
       <h2>Menu - Gestion du Parc Asterix</h2>
       <div>
         <h3>Manèges</h3>
-        <ul className="rides-list"> {/* Appliquer une classe CSS à votre liste de manèges */}
-          {rides.map((ride) => (
-            <li key={ride.id}>{ride.name}</li>
+        <ul className="attractions-list"> {/* Appliquer une classe CSS à votre liste de manèges */}
+          {attractions.map((attraction) => (
+            <li key={attraction.id}>{attraction.id} - {attraction.nom}</li>
           ))}
         </ul>
       </div>

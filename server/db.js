@@ -7,6 +7,7 @@ const connection =  {
     user: 'admin',
     password: 'ApReactG3',
 }
+
 const db = knex({
     client: 'mysql2',
     connection: connection
