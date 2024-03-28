@@ -44,6 +44,6 @@ Array.prototype.shuffle = function () {
 };
 
 export const originUrl = "http://localhost:5173";
-export const hashSaltRounds = 10;
+export const hashSaltRounds = 12;
 export const jwtPrivateKey = "FuCDM88fgzeioghià_yègdza28oSHdt__zT667SHwFdu8kXufiGS";
 export const bddErrorMessage = "Le serveur ne répond pas. Veuillez réessayer plus tard.";

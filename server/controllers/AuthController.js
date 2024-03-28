@@ -27,7 +27,7 @@ export async function login(/** @type { express.Request } */ request, /** @type 
                 else if(await bcrypt.compare(password,user.password))
                 {
                     const j = jwt.sign({"email":user.email,"admin":user.isAdmin}, jwtPrivateKey, { expiresIn:"30d" })
-                    response.json({"success":true,"token":j,"email":user.email});
+                    response.json({"success":true,"token":j,"email":user.email,"admin":user.isAdmin,"metier":user.id_metier});
                 }
                 else
                     response.json(incorrect());
