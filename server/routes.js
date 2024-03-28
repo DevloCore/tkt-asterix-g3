@@ -1,9 +1,10 @@
 import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
-import { getAttractions, getImagesByAttractionId } from './controllers/AttractionController.js';
+import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAttractions } from './controllers/AttractionController.js';
 import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesController.js';
 import { getMissions } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
+import { getAlerts,getGravite } from './controllers/AvertissementsController.js';
 
 export default function(/** @type { import('express').IRouter } */ app) {
     // Définir la route POST pour la connexion
@@ -17,6 +18,15 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer toutes les attractions
     app.get('/attractions', getAttractions);
+
+    // Route GET pour récupérer toutes les attractions Themes
+    app.get('/attractions/themes', getThemes );
+
+    // Route GET pour récupérer toutes les attractions Types
+    app.get('/attractions/types', getType);
+
+    // Route GET pour récupérer toutes les attractions Statuts
+    app.get('/attractions/statuts', getStatutAttractions);
 
     // Route GET pour récupérer toutes les commerces
     app.get('/commerces', getCommerces);
@@ -35,4 +45,10 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer les equipes
     app.get('/equipes', getEquipes);
+
+    // Route GET pour récupérer les alerts
+    app.get('/avertissements', getAlerts);
+
+    // Route GET pour récupérer les gravités
+    app.get('/gravites', getGravite);
 }

@@ -31,3 +31,42 @@ export const getImagesByAttractionId = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Fonction pour récupérer toutes les attractions depuis la base de données
+export const getThemes = async (req, res) => {
+    try {
+        const themes = await db.select().from('THEME');
+        
+        // Renvoyer les attractions récupérées en réponse
+        res.json(themes);
+    } catch (error) {
+        console.error('Error while fetching attractions:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Fonction pour récupérer toutes les attractions depuis la base de données
+export const getType = async (req, res) => {
+    try {
+        const type = await db.select().from('TYPE');
+        
+        // Renvoyer les attractions récupérées en réponse
+        res.json(type);
+    } catch (error) {
+        console.error('Error while fetching attractions:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Fonction pour récupérer toutes les attractions depuis la base de données
+export const getStatutAttractions = async (req, res) => {
+    try {
+        const statut = await db.select().from('STATUT_ATTRACTION');
+        
+        // Renvoyer les attractions récupérées en réponse
+        res.json(statut);
+    } catch (error) {
+        console.error('Error while fetching attractions:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
