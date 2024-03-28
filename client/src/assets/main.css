@@ -6,3 +6,12 @@
 body {
     font-family: 'Montserrat';
 } */
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('./Poppins-Regular.ttf')
+}
+
+body {
+    font-family: 'Poppins';
+}

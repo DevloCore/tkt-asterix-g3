@@ -5,7 +5,7 @@ import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesCo
 
 export default function(/** @type { import('express').IRouter } */ app) {
     // Définir la route POST pour la connexion
-    app.post('/login', isAdmin, login);
+    app.post('/login', login);
 
     // Middleware pour vérifier les autorisations admin pour toutes les routes sous /admin
     app.use('/admin', isAdmin);
