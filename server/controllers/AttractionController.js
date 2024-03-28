@@ -13,3 +13,21 @@ export const getAttractions = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Fonction pour récupérer les liens des images d'une attraction spécifique
+export const getImagesByAttractionId = async (req, res) => {
+    try {
+        const { attraction_id } = req.params; // Récupérer l'ID de l'attraction depuis les paramètres de la requête
+        
+        // Récupérer les liens des images associées à l'attraction spécifiée depuis la base de données en utilisant knex
+        const images = await db('image')
+            .select('lien')
+            .where('id_attraction', attraction_id);
+        
+        // Renvoyer les liens des images récupérées en réponse
+        res.json(images);
+    } catch (error) {
+        console.error('Error while fetching images by attraction ID:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
