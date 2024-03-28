@@ -10,13 +10,13 @@ function Menu() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const shopsResponse = await axios.get('attractions');
         const attractionsResponse = await axios.get('attractions');
+        const shopsResponse = await axios.get('commerces');
   
         // Vérifier si les réponses sont des tableaux avant de les mettre à jour
-        if (Array.isArray(attractionsResponse.data) && Array.isArray(commercesResponse.data)) {
+        if (Array.isArray(attractionsResponse.data) && Array.isArray(shopsResponse.data)) {
           setAttractions(attractionsResponse.data);
-          setCommerces(commercesResponse.data);
+          setCommerces(shopsResponse.data);
         } else {
           console.error('Data received is not in expected format');
         }
