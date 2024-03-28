@@ -1,7 +1,7 @@
 import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
-import { getAttractions } from './controllers/AttractionController.js';
-import { getCommerces } from './controllers/CommercesController.js';
+import { getAttractions, getImagesByAttractionId } from './controllers/AttractionController.js';
+import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesController.js';
 
 export default function(/** @type { import('express').IRouter } */ app) {
     // Définir la route POST pour la connexion
@@ -18,4 +18,10 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer toutes les commerces
     app.get('/commerces', getCommerces);
+
+    // Route GET pour récupérer les produits d'un commerce spécifique en utilisant son ID
+    app.get('/commerces/:id_commerce/produits', getProduitsByCommerceId);
+
+    // Route GET pour récupérer les liens des images d'une attraction spécifique
+    app.get('/attraction/:attraction_id/images', getImagesByAttractionId);
 }
