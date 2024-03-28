@@ -1,0 +1,11 @@
+.mission-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .mission-table th,
+  .mission-table td {
+    padding: 8px; /* Ajustez l'espacement selon vos besoins */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }

@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Menu from './Menu.jsx'
 import Auth from './Auth.jsx'
+import Accueil from './Navbar.jsx'
+import Missions from './Missions.jsx'
+import Avertissements from './Avertissements.jsx'
 import './index.css'
 import axios from 'axios'
 import Navbar from './Navbar.jsx'
@@ -16,8 +19,9 @@ axios.interceptors.request.use((config) => {
 axios.defaults.baseURL = "http://localhost:3000/";
 
 const router = createBrowserRouter([
-  { path: '/', element: <Menu />, name:"Accueil" },
-  { path: '/auth', element: <Auth />, name:"TempAuth" },
+  { path: '/', element: <Accueil /> },
+  { path: '/menu', element: <Menu /> },
+  { path: '/auth', element: <Auth /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
