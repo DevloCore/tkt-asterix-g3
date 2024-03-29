@@ -9,6 +9,7 @@ import Avertissements from './Avertissements.jsx'
 import './index.css'
 import axios from 'axios'
 import Navbar from './Navbar.jsx'
+import GestionStaff from './GestionStaff.jsx'
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("apiToken");
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
   { path: '/auth', element: <Auth /> },
   { path: '/missions', element: <Missions /> },
   { path: '/avertissements', element: <Avertissements /> },
-  { path: '/admin', element: <Avertissements /> },
+  { path: '/gestionstaff', element: <GestionStaff /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
