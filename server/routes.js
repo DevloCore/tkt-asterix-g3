@@ -5,6 +5,7 @@ import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesCo
 import { getMissions } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
 import { getAlerts,getGravite } from './controllers/AvertissementsController.js';
+import { getUtilisateurs, addUtilisateur, deleteUtilisateur, updateUtilisateur } from './controllers/UsersController.js';
 
 export default function(/** @type { import('express').IRouter } */ app) {
     // Définir la route POST pour la connexion
@@ -51,4 +52,13 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer les gravités
     app.get('/gravites', getGravite);
+
+    // Route GET pour récupérer les utilisateurs
+    app.get('/users', getUtilisateurs);
+    // Route POST pour add user
+    app.post('/adduser',addUtilisateur);
+    // Route PATCH pour modifier user avec l'email comme paramètre
+    app.patch('/edituser/:email', updateUtilisateur);
+    // Route DELETE pour supprimer un utilisateur par email
+    app.delete('/deleteuser/:email', deleteUtilisateur);
 }
