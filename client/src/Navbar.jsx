@@ -1,9 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import './assets/navbar.css';
 
 const Navbar = (vars) => {
   const router = vars.router;
-  const routes = router.routes;
-  const currentRoute = router.state.location.pathname;
+
+  const [active, setActive] = useState("/");
+
+  useEffect(() => {
+    setActive(router.state.location.pathname);
+  });
+
+  function isActive(path) {
+    return active === path ? 'active' : '';
+  }
+
+  function navigate(path) {
+    router.navigate(path);
+    setActive(path);
+  }
 
   return (
     <nav class="navbar navbar-expand-lg mb-4">
@@ -14,30 +28,25 @@ const Navbar = (vars) => {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {routes.map((route, index) => (
-              <li className="nav-item" key={index} style={{ cursor: 'pointer' }}>
-                <span className={`nav-link ${route.path == currentRoute ? 'active' : ''}`} onClick={() => router.navigate(route.path)}>{route.name}</span>
-              </li>
-            ))}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Lieux
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/menu">Attractions</a></li>
-                <li><a class="dropdown-item" href="/menu">Commerce</a></li>
+                <li><span className={`dropdown-item ${isActive('/menu')}`} onClick={() => navigate("/menu")}>Attractions</span></li>
+                {/* <li><span className={`dropdown-item ${isActive('/menu')}`} onClick={() => navigate("/menu")}>Commerces</span></li> */}
                 <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/missions">Missions</a>
+            <li className="nav-item">
+              <span className={`nav-link ${isActive('/missions')}`} onClick={() => navigate("/missions")}>Missions</span>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/avertissements">Avertissements</a>
+            <li className="nav-item">
+              <span className={`nav-link ${isActive('/avertissements')}`} onClick={() => navigate("/avertissements")}>Avertissements</span>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin">Panel Admin</a>
+            <li className="nav-item">
+              <span className={`nav-link ${isActive('/admin')}`} onClick={() => navigate("/admin")}>Panel Admin</span>
             </li>
           </ul>
           <form class="d-flex" role="search">
