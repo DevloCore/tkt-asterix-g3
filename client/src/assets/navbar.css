@@ -7,3 +7,9 @@
 .nav-link.active {
     font-size: 110%;
 }
+
+.navbar {
+    width: 100%!important;
+    padding: 2em;
+    background-color: #FFFFFF;
+}
