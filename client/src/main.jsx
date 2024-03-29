@@ -6,7 +6,6 @@ import Auth from './Auth.jsx'
 import Accueil from './Navbar.jsx'
 import Missions from './Missions.jsx'
 import Avertissements from './Avertissements.jsx'
-import './index.css'
 import axios from 'axios'
 import Navbar from './Navbar.jsx'
 
@@ -30,7 +29,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Navbar router={router} />
-    <RouterProvider router={router}>
-  </RouterProvider>
+    <div class="myBody"><RouterProvider router={router}>
+  </RouterProvider></div>
   </React.StrictMode>,
 )
