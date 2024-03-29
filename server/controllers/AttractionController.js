@@ -21,7 +21,7 @@ export const getImagesByAttractionId = async (req, res) => {
         
         // Récupérer les liens des images associées à l'attraction spécifiée depuis la base de données en utilisant knex
         const images = await db('image')
-            .select('lien')
+            .select('nom','lien')
             .where('id_attraction', attraction_id);
         
         // Renvoyer les liens des images récupérées en réponse

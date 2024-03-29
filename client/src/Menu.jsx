@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.css'; // Importez le fichier App.css
+import Icon from '@mdi/react';
+import { mdiHumanMaleHeightVariant, mdiHumanMaleChild } from '@mdi/js';
 
 function Menu() {
   const [attractions, setAttractions] = useState([]);
@@ -18,7 +19,7 @@ function Menu() {
           return { ...attraction, images: imagesResponse.data };
         }));
         const commercesResponse = await axios.get('commerces');
-  
+
         // Vérifier si les réponses sont des tableaux avant de les mettre à jour
         if (Array.isArray(attractionsResponse.data) && Array.isArray(commercesResponse.data)) {
           setAttractions(attractionsWithImages);
@@ -26,14 +27,14 @@ function Menu() {
         } else {
           console.error('Data received is not in expected format');
         }
-  
+
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
         setLoading(false);
       }
     }
-  
+
     fetchData();
   }, []);
 
@@ -57,33 +58,43 @@ function Menu() {
   }
 
   return (
-    <div className="menu-container"> {/* Appliquer une classe CSS à votre conteneur principal */}
-      <h2>Menu - Gestion du Parc Asterix</h2>
-      <div>
-        <h3>Attractions :</h3>
-        <ul className="attractions-list"> {/* Appliquer une classe CSS à votre liste de manèges */}
-          {attractions.map((attraction) => (
-            <li key={attraction.id}>
-              <strong>{attraction.nom}</strong>
-              {attraction.description && <p><em>Description :</em> {attraction.description}</p>}
-              {attraction.taille_min && <p><em>Taille minimale :</em> {attraction.taille_min}</p>}
-              {attraction.taille_min_acc && <p><em>Taille minimale accompagnée :</em> {attraction.taille_min_acc}</p>}
-              {attraction.images && (
-                <div>
-                  <h4>Images :</h4>
-                  <ul>
-                    {attraction.images.map((image, index) => (
-                      <li key={index}>
-                        <img src={image.lien} alt={`Image ${index + 1}`} />
-                      </li>
-                    ))}
-                  </ul>
+    <div className='container' style={{ maxWidth:"720px"}}>
+      <h2 style={{ textAlign: 'center' }} className='mb-4'>Liste des attractions</h2>
+      {attractions.map((attraction) => (
+        <div className="card mb-3 shadow" key={attraction.id}>
+          {attraction.images.length > 0 && (
+            <>
+              <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                  {attraction.images.map((image, index) => (
+                    <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={index}>
+                      <img src={image.lien} className="d-block w-100 card-img-top" alt={image.nom} style={{ maxHeight: '256px', objectFit: 'cover' }} />
+                    </div>
+                  ))}
                 </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </>
+          )}
+          <div class="card-body">
+            <h5 class="card-title">{attraction.nom}</h5>
+            <p class="card-text">{attraction.description}</p>
+            <p class="card-text">
+              <small class="text-body-secondary">
+                {attraction.taille_min && <div><Icon path={mdiHumanMaleHeightVariant} size={1.2} style={{ marginRight: '8px' }} /><em>Taille minimale :</em> {attraction.taille_min}</div>}
+                {attraction.taille_min_acc && <div><Icon path={mdiHumanMaleChild} size={1.2} style={{ marginRight: '8px' }} /><em>Taille minimale accompagnée :</em> {attraction.taille_min_acc}</div>}
+              </small>
+            </p>
+          </div>
+        </div>
+      ))}
 
       <div>
         <h3>Commerces :</h3>
