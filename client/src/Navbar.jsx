@@ -46,7 +46,7 @@ const Navbar = (vars) => {
               <span className={`nav-link ${isActive('/avertissements')}`} onClick={() => navigate("/avertissements")}>Avertissements</span>
             </li>
             <li className="nav-item">
-              <span className={`nav-link ${isActive('/admin')}`} onClick={() => navigate("/admin")}>Panel Admin</span>
+              <span className={`nav-link ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Panel Admin</span>
             </li>
           </ul>
         </div>
