@@ -1,0 +1,9 @@
+.nav-item {
+    cursor: pointer;
+    align-content: end;
+    min-height: 42px;
+}
+
+.nav-link.active {
+    font-size: 110%;
+}

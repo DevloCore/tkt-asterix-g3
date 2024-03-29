@@ -19,7 +19,7 @@ axios.interceptors.request.use((config) => {
 axios.defaults.baseURL = "http://localhost:3000/";
 
 const router = createBrowserRouter([
-  { path: '/', element: <Auth /> },
+  { path: '/', element: <Menu /> },
   { path: '/menu', element: <Menu /> },
   { path: '/auth', element: <Auth /> },
   { path: '/missions', element: <Missions /> },
