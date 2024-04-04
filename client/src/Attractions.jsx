@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './assets/attractions.css';
 import Icon from '@mdi/react';
-import { mdiHumanMaleHeightVariant, mdiHumanMaleChild, mdiArrowDownDropCircle, mdiCompassRose } from '@mdi/js';
+import { mdiHumanMaleHeightVariant, mdiHumanMaleChild, mdiArrowDownDropCircle, mdiCompassRose, mdiFilter } from '@mdi/js';
 
 function Menu() {
   const [attractions, setAttractions] = useState([]);
@@ -10,6 +11,17 @@ function Menu() {
   const [loading, setLoading] = useState(true);
   const [selectedCommerce, setSelectedCommerce] = useState(null);
   const [stock, setStock] = useState(null);
+
+  const [taille, setTaille] = useState(50);
+  const handleTailleChange = (event) => {
+    setTaille(event.target.value);
+  };
+
+  function handleFilterSubmit(event) {
+    event.preventDefault()
+    console.log(event.currentTarget.elements.themeSelect.value)
+    console.log(event.currentTarget.elements.estAccompagne.checked)
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -62,55 +74,87 @@ function Menu() {
 
   return (
     <div className='container' style={{ maxWidth: "768px" }}>
-      <div class="someTitle attractions">Liste des attractions</div>
-      <div class="row">
+      <div className="someTitle attractions">Liste des attractions</div>
+      <div className="d-flex justify-content-end mb-3">
+        <button className="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#searchCollapse" aria-expanded="false" aria-controls="collapseExample">
+          <Icon path={mdiFilter} size={1} className="me-2"/>
+          Filtrer
+        </button>
+      </div>
+      <div className="collapse mb-3" id="searchCollapse">
+        <div className="card card-body bg-success text-light">
+          <form onSubmit={handleFilterSubmit}>
+            <div className="mb-3">
+              <label htmlFor="themeSelect" className="form-label">Thème :</label>
+              <select className="form-select" id="themeSelect">
+                <option value="-1">Choisir un thème...</option>
+                {themes.map(theme => (
+                  <option value={theme.id} key={theme.id}>{theme.libelle}</option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              {/* slider pour choisir une taille en cm */}
+              <label htmlFor="tailleMin" className="form-label">Votre taille : <b>{taille} cm</b></label>
+              <input type="range" className="form-range custom-range" id="tailleMin" min="50" max="200" step="1" onChange={handleTailleChange}/>
+            </div>
+            <div className="mb-3">
+              <input type="checkbox" id="estAccompagne" className="form-check-input" />
+              <label htmlFor="estAccompagne" className="form-label ms-2">Accompagné d'un adulte</label>
+            </div>
+            <button type="submit" className="btn btn-primary">Filtrer</button>
+          </form>
+        </div>
+      </div>
+      <div className="row">
         {attractions.map((attraction, index) => (
-          <div class="col-12 col-md-6">
+          <div className="col-12 col-md-6 mt-2" key={index}>
             <div className="card mb-3 shadow" key={attraction.id}>
               {attraction.images.length > 0 && (
                 <>
-                  <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
+                  <div id={`carousel${index}`} className="carousel slide">
+                    <div className="carousel-inner">
                       {attraction.images.map((image, index) => (
                         <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={index}>
                           <img src={image.lien} className="d-block w-100 card-img-top" alt={image.nom} style={{ maxHeight: '256px', objectFit: 'cover' }} />
                         </div>
                       ))}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
+                    <button className="carousel-control-prev" type="button" data-bs-target={`#carousel${index}`} data-bs-slide="prev">
+                      <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span className="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
+                    <button className="carousel-control-next" type="button" data-bs-target={`#carousel${index}`} data-bs-slide="next">
+                      <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span className="visually-hidden">Next</span>
                     </button>
                   </div>
                 </>
               )}
-              <div class="card-body">
-                <h5 class="card-title">
-                  <div class="d-flex justify-content-between align-items-start">
+              <div className="card-body">
+                <h5 className="card-title">
+                  <div className="d-flex justify-content-between align-items-start">
                     {attraction.nom}
-                    <button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded="false" aria-controls="collapseExample">
+                    <button className="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded="false" aria-controls="collapseExample">
                       <Icon path={mdiArrowDownDropCircle} size={1} color="darkcyan"/>
                     </button>
                   </div>
                 </h5>
-                <p class="card-text">
-                  <div class="collapse" id={`collapse${index}`}>
-                    <div class="card card-body">
+                <div className="card-text">
+                  <div className="collapse" id={`collapse${index}`}>
+                    <div className="card card-body">
                       <p>{attraction.description}</p>
-                      <small class="text-body-secondary">
-                    {attraction.taille_min && <div><Icon path={mdiHumanMaleHeightVariant} size={1} style={{ marginRight: '8px' }} /><em>Taille minimale :</em> {attraction.taille_min} cm</div>}
-                    {attraction.taille_min_acc && <div><Icon path={mdiHumanMaleChild} size={1} style={{ marginRight: '8px' }} /><em>Taille minimale accompagnée :</em> {attraction.taille_min_acc} cm</div>}
-                  </small>
+                      <small className="text-body-secondary">
+                        {attraction.taille_min && <div><Icon path={mdiHumanMaleHeightVariant} size={1} style={{ marginRight: '8px' }} /><em>Taille minimale :</em> {attraction.taille_min} cm</div>}
+                        {attraction.taille_min_acc && <div><Icon path={mdiHumanMaleChild} size={1} style={{ marginRight: '8px' }} /><em>Taille minimale accompagnée :</em> {attraction.taille_min_acc} cm</div>}
+                      </small>
                     </div>
                   </div>
-                </p>
-                <p class="card-text">
-                  <small class="text-body-secondary">
-                    {attraction.taille_min && <div><Icon path={mdiCompassRose} size={1.2} style={{ marginRight: '8px' }} />{themes.find(theme => theme.id == attraction.id_theme).libelle}</div>}
+                </div>
+                <h4><span className="position-absolute top-0 start-100 translate-middle badge rounded-pill attractionNum">{attraction.numero}</span></h4>
+                <p className="card-text">
+                  <small className="text-body-secondary">
+                    {attraction.taille_min && <span><Icon path={mdiCompassRose} size={1.2} style={{ marginRight: '8px' }} />{themes.find(theme => theme.id == attraction.id_theme).libelle}</span>}
                   </small>
                 </p>
               </div>

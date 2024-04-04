@@ -1,0 +1,15 @@
+.attractionNum {
+    background-color: rgb(35, 132, 189);
+}
+
+.custom-range::-webkit-slider-thumb {
+    background: rgb(78, 212, 15);
+}
+
+.custom-range::-moz-range-thumb {
+    background: rgb(78, 212, 15);;
+}
+
+.custom-range::-ms-thumb {
+    background: rgb(78, 212, 15);;
+}
