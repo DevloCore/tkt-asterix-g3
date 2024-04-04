@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Missions.css';
+import './assets/Missions.css';
 
 const MissionTable = () => {
   const [missions, setMissions] = useState([]);
@@ -32,7 +32,7 @@ const MissionTable = () => {
 
   return (
     <div>
-      <h1>Missions :</h1>
+      <div class="someTitle missions">Missions</div>
       <table className="mission-table">
         <thead>
           <tr>

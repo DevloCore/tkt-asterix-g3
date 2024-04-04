@@ -62,7 +62,7 @@ function Menu() {
 
   return (
     <div className='container' style={{ maxWidth: "768px" }}>
-      <div class="someTitle">Liste des attractions</div>
+      <div class="someTitle attractions">Liste des attractions</div>
       <div class="row">
         {attractions.map((attraction, index) => (
           <div class="col-12 col-md-6">

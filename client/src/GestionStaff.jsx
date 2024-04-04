@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Missions.css';
+import './assets/Missions.css';
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -63,7 +63,7 @@ const UsersTable = () => {
   };
 
   const deleteUser = async (userId) => {
-    if(window.confirm("Voulez vous vraiment supprimer l'utilisateur "+userId)) {
+    if(window.confirm("Voulez vous vraiment supprimer l'utilisateur "+ userId + " ?")) {
       try {
         await axios.delete(`deleteuser/${userId}`);
         setUsers(users.filter(user => user.email !== userId));
@@ -118,7 +118,7 @@ const UsersTable = () => {
 
   return (
     <div>
-      <h1>Utilisateurs :</h1>
+      <div class="someTitle admin">Panel Admin</div>
       <div>
         <h2>Ajouter un utilisateur :</h2>
         <input 

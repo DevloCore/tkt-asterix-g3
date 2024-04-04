@@ -33,7 +33,7 @@ const Navbar = (vars) => {
                 Lieux
               </a>
               <ul class="dropdown-menu">
-                <li><span className={`dropdown-item ${isActive('/menu')}`} onClick={() => navigate("/menu")}>Attractions</span></li>
+                <li><span className={`dropdown-item ${isActive('/attractions')}`} onClick={() => navigate("/attractions")}>Attractions</span></li>
                 {/* <li><span className={`dropdown-item ${isActive('/menu')}`} onClick={() => navigate("/menu")}>Commerces</span></li> */}
                 <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>

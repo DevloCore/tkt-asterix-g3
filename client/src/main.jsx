@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Menu from './Menu.jsx'
 import Auth from './Auth.jsx'
-import Accueil from './Navbar.jsx'
 import Missions from './Missions.jsx'
 import Avertissements from './Avertissements.jsx'
+import Attractions from './Attractions.jsx'
 import axios from 'axios'
 import Navbar from './Navbar.jsx'
 import GestionStaff from './GestionStaff.jsx'
@@ -19,8 +18,8 @@ axios.interceptors.request.use((config) => {
 axios.defaults.baseURL = "http://localhost:3000/";
 
 const router = createBrowserRouter([
-  { path: '/', element: <Menu /> },
-  { path: '/menu', element: <Menu /> },
+  { path: '/', element: <Attractions /> },
+  { path: '/attractions', element: <Attractions /> },
   { path: '/auth', element: <Auth /> },
   { path: '/missions', element: <Missions /> },
   { path: '/avertissements', element: <Avertissements /> },

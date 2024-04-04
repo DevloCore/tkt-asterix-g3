@@ -28,7 +28,6 @@ background-size: cover;
 }
 
 .someTitle {
-    background-color: #8be036;
     border-radius: 16px 0;
     text-align: center;
     color: white;
@@ -36,4 +35,19 @@ background-size: cover;
     box-shadow: var(--bs-box-shadow) !important;
     margin-bottom: 20px;
     padding: 4px;
+}
+.someTitle.attractions {
+    background-color: #8be036;
+}
+.someTitle.commerces {
+    background-color: #00a581;
+}
+.someTitle.admin {
+    background-color: #00a581;
+}
+.someTitle.missions {
+    background-color: #00a581;
+}
+.someTitle.avertissements {
+    background-color: #00a581;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Missions.css';
+import './assets/Missions.css';
 
 const AlertsTable = () => {
   const [avertissements, setAvertissements] = useState([]);
@@ -9,8 +9,8 @@ const AlertsTable = () => {
   useEffect(() => {
     const fetchAvertissements = async () => {
       try {
-        const alertsResponse = await axios.get('http://localhost:3000/avertissements');
-        const gravitesResponse = await axios.get('http://localhost:3000/gravites');
+        const alertsResponse = await axios.get('avertissements');
+        const gravitesResponse = await axios.get('gravites');
 
         // Convertir les dates au format souhaité
         const updatedAvertissements = alertsResponse.data.map(avertissement => ({
@@ -32,7 +32,7 @@ const AlertsTable = () => {
 
   return (
     <div>
-      <h1>Avertissements :</h1>
+      <div class="someTitle avertissements">Avertissements</div>
       <table className="mission-table">
         <thead>
           <tr>
