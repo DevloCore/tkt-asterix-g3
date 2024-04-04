@@ -29,7 +29,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Navbar router={router} />
-    <div class="myBody"><RouterProvider router={router}>
+    <div className="myBody"><RouterProvider router={router}>
   </RouterProvider></div>
   </React.StrictMode>,
 )
