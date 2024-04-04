@@ -184,86 +184,91 @@ const UsersTable = () => {
         </thead>
         <tbody>
         {users.map(user => (
-  <tr key={user.email}>
-    <td>
-      {editingUser === user.email ? (
-        <input 
-          type="text" 
-          value={newUser.email} 
-          onChange={e => setNewUser(prevState => ({ ...prevState, email: e.target.value }))} 
-        />
-      ) : (
-        user.email
-      )}
-    </td>
-    <td>
-      {editingUser === user.email ? (
-        <input 
-          type="text" 
-          value={newUser.nom} 
-          onChange={e => setNewUser(prevState => ({ ...prevState, nom: e.target.value }))} 
-        />
-      ) : (
-        user.nom
-      )}
-    </td>
-    <td>
-      {editingUser === user.email ? (
-        <input 
-          type="text" 
-          value={newUser.prenom} 
-          onChange={e => setNewUser(prevState => ({ ...prevState, prenom: e.target.value }))} 
-        />
-      ) : (
-        user.prenom
-      )}
-    </td>
-    <td>
-      {editingUser === user.email ? (
-        <select 
-          value={newUser.id_equipe} 
-          onChange={e => setNewUser(prevState => ({ ...prevState, id_equipe: e.target.value }))} 
-        >
-          <option value="">Sélectionnez une équipe</option>
-          {equipes.map(equipe => (
-            <option key={equipe.id} value={equipe.id}>{equipe.libelle}</option>
+            <tr key={user.email}>
+              <td>
+                {editingUser === user.email ? (
+                  <input 
+                    type="text" 
+                    value={newUser.email} 
+                    style={{ maxWidth: '128px'}}
+                    onChange={e => setNewUser(prevState => ({ ...prevState, email: e.target.value }))} 
+                  />
+                ) : (
+                  user.email
+                )}
+              </td>
+              <td>
+                {editingUser === user.email ? (
+                  <input 
+                    type="text" 
+                    value={newUser.nom} 
+                    style={{ maxWidth: '92px'}}
+                    onChange={e => setNewUser(prevState => ({ ...prevState, nom: e.target.value }))} 
+                  />
+                ) : (
+                  user.nom
+                )}
+              </td>
+              <td>
+                {editingUser === user.email ? (
+                  <input 
+                    type="text" 
+                    value={newUser.prenom}
+                    style={{ maxWidth: '92px'}}
+                    onChange={e => setNewUser(prevState => ({ ...prevState, prenom: e.target.value }))} 
+                  />
+                ) : (
+                  user.prenom
+                )}
+              </td>
+              <td>
+                {editingUser === user.email ? (
+                  <select 
+                    value={newUser.id_equipe}
+                    style={{ maxWidth: '128px'}}
+                    onChange={e => setNewUser(prevState => ({ ...prevState, id_equipe: e.target.value }))} 
+                  >
+                    <option value="">Sélectionnez une équipe</option>
+                    {equipes.map(equipe => (
+                      <option key={equipe.id} value={equipe.id}>{equipe.libelle}</option>
+                    ))}
+                  </select>
+                ) : (
+                  equipes.find(equipe => equipe.id === user.id_equipe)?.libelle
+                )}
+              </td>
+              <td>
+                {editingUser === user.email ? (
+                  <select 
+                    value={newUser.id_metier} 
+                    style={{ maxWidth: '128px'}}
+                    onChange={e => setNewUser(prevState => ({ ...prevState, id_metier: e.target.value }))} 
+                  >
+                    <option value="">Sélectionnez un métier</option>
+                    {metiers.map(metier => (
+                      <option key={metier.id} value={metier.id}>{metier.libelle}</option>
+                    ))}
+                  </select>
+                ) : (
+                  metiers.find(metier => metier.id === user.id_metier)?.libelle
+                )}
+              </td>
+              <td>
+                {/* Vérifier si l'utilisateur est administrateur */}
+                {user.isAdmin !== 1 && (
+                  <>
+                    
+                    <button onClick={() => deleteUser(user.email)}>Supprimer</button>
+                  </>
+                )}
+                {editingUser === user.email ? (
+                      <button onClick={() => handleConfirmEdit(user.email)}>Confirmer</button>
+                    ) : (
+                      <button onClick={() => handleEditClick(user.email)}>Modifier</button>
+                    )}
+              </td>
+            </tr>
           ))}
-        </select>
-      ) : (
-        equipes.find(equipe => equipe.id === user.id_equipe)?.libelle
-      )}
-    </td>
-    <td>
-      {editingUser === user.email ? (
-        <select 
-          value={newUser.id_metier} 
-          onChange={e => setNewUser(prevState => ({ ...prevState, id_metier: e.target.value }))} 
-        >
-          <option value="">Sélectionnez un métier</option>
-          {metiers.map(metier => (
-            <option key={metier.id} value={metier.id}>{metier.libelle}</option>
-          ))}
-        </select>
-      ) : (
-        metiers.find(metier => metier.id === user.id_metier)?.libelle
-      )}
-    </td>
-    <td>
-      {/* Vérifier si l'utilisateur est administrateur */}
-      {user.isAdmin !== 1 && (
-        <>
-          
-          <button onClick={() => deleteUser(user.email)}>Supprimer</button>
-        </>
-      )}
-      {editingUser === user.email ? (
-            <button onClick={() => handleConfirmEdit(user.email)}>Confirmer</button>
-          ) : (
-            <button onClick={() => handleEditClick(user.email)}>Modifier</button>
-          )}
-    </td>
-  </tr>
-))}
         </tbody>
       </table>
     </div>

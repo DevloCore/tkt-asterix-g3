@@ -112,22 +112,26 @@ function Menu() {
             <div className="card mb-3 shadow" key={attraction.id}>
               {attraction.images.length > 0 && (
                 <>
-                  <div id={`carousel${index}`} className="carousel slide">
+                  <div id={`carousel${index}`} className="carousel slide pointer-event">
                     <div className="carousel-inner">
                       {attraction.images.map((image, index) => (
-                        <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={index}>
+                        <div className={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
                           <img src={image.lien} className="d-block w-100 card-img-top" alt={image.nom} style={{ maxHeight: '256px', objectFit: 'cover' }} />
                         </div>
                       ))}
                     </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target={`#carousel${index}`} data-bs-slide="prev">
-                      <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target={`#carousel${index}`} data-bs-slide="next">
-                      <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span className="visually-hidden">Next</span>
-                    </button>
+                    {attraction.images.length > 1 && (
+                      <div>
+                        <button className="carousel-control-prev" type="button" data-bs-target={`#carousel${index}`} data-bs-slide="prev">
+                          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button className="carousel-control-next" type="button" data-bs-target={`#carousel${index}`} data-bs-slide="next">
+                          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span className="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                      )}
                   </div>
                 </>
               )}
