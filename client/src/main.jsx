@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Auth from './Auth.jsx'
@@ -10,7 +10,7 @@ import Navbar from './Navbar.jsx'
 import GestionStaff from './GestionStaff.jsx'
 import GestionMissions from './GestionMissions.jsx'
 import Login from './Login.jsx'
-import { UserProvider } from './assets/contexts/UserContext.jsx'
+import { UserContext, UserProvider } from './assets/contexts/UserContext.jsx'
 
 
 axios.interceptors.request.use((config) => {

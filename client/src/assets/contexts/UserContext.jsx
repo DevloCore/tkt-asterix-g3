@@ -5,7 +5,13 @@ const UserContext = createContext();
 
 // Create a provider component
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    var defaultUserValue = null;
+    try {
+        defaultUserValue = JSON.parse(localStorage.getItem('user'));
+    }
+    catch (e) { }
+    
+    const [user, setUser] = useState(defaultUserValue);
 
     // Provide the user state to the children components
     return (

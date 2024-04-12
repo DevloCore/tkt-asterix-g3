@@ -35,7 +35,7 @@ const Login = () => {
             };
 
             localStorage.setItem('apiToken', response.data.token);
-            localStorage.setItem('user', user);
+            localStorage.setItem('user', JSON.stringify(user));
 
             setUser(user);
 
