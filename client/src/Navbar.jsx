@@ -45,8 +45,14 @@ const Navbar = (vars) => {
             <li className="nav-item">
               <span className={`nav-link ${isActive('/avertissements')}`} onClick={() => navigate("/avertissements")}>Avertissements</span>
             </li>
-            <li className="nav-item">
-              <span className={`nav-link ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Panel Admin</span>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Panel Admin
+              </a>
+              <ul className="dropdown-menu">
+                <li><span className={`dropdown-item ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Gestion Personels</span></li>
+                <li><span className={`dropdown-item ${isActive('/gestionmissions')}`} onClick={() => navigate("/gestionmissions")}>Gestion Missions</span></li>
+              </ul>
             </li>
           </ul>
         </div>
