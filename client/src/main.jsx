@@ -8,12 +8,10 @@ import Attractions from './Attractions.jsx'
 import axios from 'axios'
 import Navbar from './Navbar.jsx'
 import GestionStaff from './GestionStaff.jsx'
-<<<<<<< HEAD
 import GestionMissions from './GestionMissions.jsx'
-=======
 import Login from './Login.jsx'
 import { UserProvider } from './assets/contexts/UserContext.jsx'
->>>>>>> dev
+
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("apiToken");

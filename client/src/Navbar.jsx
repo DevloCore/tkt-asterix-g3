@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './assets/navbar.css';
+import { UserContext } from './assets/contexts/UserContext';
 
 const Navbar = (vars) => {
   const router = vars.router;
 
   const [active, setActive] = useState("/");
 
+  const userCon = useContext(UserContext);
+
   useEffect(() => {
     setActive(router.state.location.pathname);
-  });
+  }, [router.state.location.pathname]); // Ajoutez les dépendances de useEffect
 
   function isActive(path) {
     return active === path ? 'active' : '';
@@ -34,7 +37,6 @@ const Navbar = (vars) => {
               </a>
               <ul className="dropdown-menu">
                 <li><span className={`dropdown-item ${isActive('/attractions')}`} onClick={() => navigate("/attractions")}>Attractions</span></li>
-                {/* <li><span className={`dropdown-item ${isActive('/menu')}`} onClick={() => navigate("/menu")}>Commerces</span></li> */}
                 <li><hr className="dropdown-divider" /></li>
                 <li><a className="dropdown-item" href="#">Something else here</a></li>
               </ul>
@@ -45,15 +47,23 @@ const Navbar = (vars) => {
             <li className="nav-item">
               <span className={`nav-link ${isActive('/avertissements')}`} onClick={() => navigate("/avertissements")}>Avertissements</span>
             </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Panel Admin
-              </a>
-              <ul className="dropdown-menu">
-                <li><span className={`dropdown-item ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Gestion Personels</span></li>
-                <li><span className={`dropdown-item ${isActive('/gestionmissions')}`} onClick={() => navigate("/gestionmissions")}>Gestion Missions</span></li>
-              </ul>
+
+            {userCon.user && userCon.user.admin === 1 && (
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Panel Admin
+                </a>
+                <ul className="dropdown-menu">
+                  <li><span className={`dropdown-item ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Gestion Personels</span></li>
+                  <li><span className={`dropdown-item ${isActive('/gestionmissions')}`} onClick={() => navigate("/gestionmissions")}>Gestion Missions</span></li>
+                </ul>
+              </li>
+            )}
+            {userCon.user && userCon.user.metier === 5 && (
+              <li className="nav-item">
+              <span className={`nav-link ${isActive('/gestionboutique')}`} onClick={() => navigate("/gestionboutique")}>Gestion Boutique</span>
             </li>
+            )}
             <li className="nav-item">
               <span className={`nav-link ${isActive('/login')}`} onClick={() => navigate("/login")}>Connexion</span>
             </li>
