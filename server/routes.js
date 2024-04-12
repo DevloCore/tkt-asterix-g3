@@ -1,6 +1,6 @@
 import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
-import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAttractions } from './controllers/AttractionController.js';
+import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAttractions, getAttractionsFiltered } from './controllers/AttractionController.js';
 import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesController.js';
 import { getMissions } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
@@ -19,6 +19,9 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer toutes les attractions
     app.get('/attractions', getAttractions);
+
+    // Route GET pour récupérer toutes les attractions
+    app.get('/filterAttractions', getAttractionsFiltered);
 
     // Route GET pour récupérer toutes les attractions Themes
     app.get('/attractions/themes', getThemes );
