@@ -3,7 +3,7 @@ import axios from 'axios';
 import './assets/attractions.css';
 import Icon from '@mdi/react';
 import { mdiHumanMaleHeightVariant, mdiHumanMaleChild, mdiArrowDownDropCircle, mdiCompassRose, mdiFilter } from '@mdi/js';
-import { UserContext } from './assets/contexts/UserContext';
+// import { UserContext } from './assets/contexts/UserContext';
 
 function Menu() {
   const [attractions, setAttractions] = useState([]);
@@ -20,10 +20,10 @@ function Menu() {
     setTaille(event.target.value);
   };
 
-  const userCon = useContext(UserContext);
+  // const userCon = useContext(UserContext);
 
   useEffect(() => {
-    console.log(userCon.user);
+    // console.log(userCon.user);
 
     async function fetchData() {
       try {
