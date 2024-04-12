@@ -54,6 +54,9 @@ const Navbar = (vars) => {
                 <li><span className={`dropdown-item ${isActive('/gestionmissions')}`} onClick={() => navigate("/gestionmissions")}>Gestion Missions</span></li>
               </ul>
             </li>
+            <li className="nav-item">
+              <span className={`nav-link ${isActive('/login')}`} onClick={() => navigate("/login")}>Connexion</span>
+            </li>
           </ul>
         </div>
       </div>
