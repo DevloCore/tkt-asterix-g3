@@ -48,6 +48,9 @@ const Navbar = (vars) => {
             <li className="nav-item">
               <span className={`nav-link ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Panel Admin</span>
             </li>
+            <li className="nav-item">
+              <span className={`nav-link ${isActive('/login')}`} onClick={() => navigate("/login")}>Connexion</span>
+            </li>
           </ul>
         </div>
       </div>

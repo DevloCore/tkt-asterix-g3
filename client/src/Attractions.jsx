@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './assets/attractions.css';
 import Icon from '@mdi/react';
 import { mdiHumanMaleHeightVariant, mdiHumanMaleChild, mdiArrowDownDropCircle, mdiCompassRose, mdiFilter } from '@mdi/js';
+import { UserContext } from './assets/contexts/UserContext';
 
 function Menu() {
   const [attractions, setAttractions] = useState([]);
+  const [hasFilter, setHasFilter] = useState(false);
+  const [filters, setFilters] = useState([]);
   const [themes, setThemes] = useState([]);
   const [commerces, setCommerces] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,13 +20,11 @@ function Menu() {
     setTaille(event.target.value);
   };
 
-  function handleFilterSubmit(event) {
-    event.preventDefault()
-    console.log(event.currentTarget.elements.themeSelect.value)
-    console.log(event.currentTarget.elements.estAccompagne.checked)
-  }
+  const userCon = useContext(UserContext);
 
   useEffect(() => {
+    console.log(userCon.user);
+
     async function fetchData() {
       try {
         const attractionsResponse = await axios.get('attractions');
@@ -52,6 +53,26 @@ function Menu() {
 
     fetchData();
   }, []);
+
+  async function filterAttractions(event) {
+    event.preventDefault()
+    const theme = event.currentTarget.elements.themeSelect.value;
+    const estAccompagne = event.currentTarget.elements.estAccompagne.checked;
+
+    try {
+      const response = await axios.get('filterAttractions', {
+        params: {
+          theme: theme,
+          taille: taille,
+          estAccompagne: estAccompagne
+        }
+      });
+      setFilters(response.data);
+      setHasFilter(true);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   // Fonction pour récupérer le stock d'un commerce spécifique
   const fetchStock = async (idCommerce) => {
@@ -83,7 +104,7 @@ function Menu() {
       </div>
       <div className="collapse mb-3" id="searchCollapse">
         <div className="card card-body bg-success text-light">
-          <form onSubmit={handleFilterSubmit}>
+          <form onSubmit={filterAttractions}>
             <div className="mb-3">
               <label htmlFor="themeSelect" className="form-label">Thème :</label>
               <select className="form-select" id="themeSelect">
@@ -107,7 +128,7 @@ function Menu() {
         </div>
       </div>
       <div className="row">
-        {attractions.map((attraction, index) => (
+      {attractions.filter(attraction => !hasFilter || filters.includes(attraction.id)).map((attraction, index) => (
           <div className="col-12 col-md-6 mt-2" key={index}>
             <div className="card mb-3 shadow" key={attraction.id}>
               {attraction.images.length > 0 && (
