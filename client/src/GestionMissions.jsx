@@ -15,15 +15,17 @@ const MissionsTable = () => {
   const [commerces, setCommerces] = useState([]);
   const [attractions, setAttractions] = useState([]);
   const [newMission, setNewMission] = useState({
+    id: '',
     libelle: '',
     date: '',
     email_utilisateur: '',
-    id_statut_mission: 1, // Valeur par défaut de statut
+    id_statut_mission: '',
     id_commerce: '',
     id_attraction: '',
     commentaire: '',
     id_metier: ''
   });
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,10 +66,23 @@ const MissionsTable = () => {
       ...prevState,
       [name]: value
     }));
+    if (name === 'id_metier') {
+      filterUsersByMetier(value);
+    }
   };
 
-  const addMission = async () => {
+  const filterUsersByMetier = (metierId) => {
+    const filtered = utilisateurs.filter(user => user.id_metier === metierId);
+    setFilteredUsers(filtered);
+  };
+
+  const addOrUpdateMission = async () => {
+    const method = newMission.id ? 'patch' : 'post';
+    const url = newMission.id ? `/editmission/${newMission.id}` : 'addmission';
+
     try {
+      await axios[method](url, newMission);
+      refreshData();
       setLoading(true);
 
       await axios.post('addmission', newMission);
@@ -75,15 +90,14 @@ const MissionsTable = () => {
         libelle: '',
         date: '',
         email_utilisateur: '',
-        id_statut_mission: 1,
+        id_statut_mission: '',
         id_commerce: '',
         id_attraction: '',
         commentaire: '',
         id_metier: ''
       });
-      refreshData();
     } catch (error) {
-      console.error('Error adding mission:', error);
+      console.error('Error adding/updating mission:', error);
     }
     finally {
       setLoading(false);
@@ -92,20 +106,15 @@ const MissionsTable = () => {
 
   const updateMission = async () => {
     try {
-      setLoading(true);
-
       await axios.patch(`/editmission/${newMission.id}`, newMission);
       refreshData();
     } catch (error) {
       console.error('Error updating mission:', error);
     }
-    finally {
-      setLoading(false);
-    }
   };
 
   const deleteMission = async (missionId) => {
-    if(window.confirm("Voulez-vous vraiment supprimer la mission avec l'ID "+ missionId + " ?")) {
+    if(window.confirm("Voulez-vous vraiment supprimer cette mission ?")) {
       try {
         setLoading(true);
 
@@ -149,82 +158,57 @@ const MissionsTable = () => {
     }
   };
 
-  const getLibelleFromId = (id, data) => {
-    const item = data.find(item => item.id === id);
-    return item ? item.libelle : '';
-  };
-
-  const getNomFromId = (id, data) => {
-    const item = data.find(item => item.id === id);
-    return item ? item.nom : '';
-  };
-
-  // Fonction pour formater la date
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('fr-FR', options);
-  };
-
   const handleEditMission = (mission) => {
     setNewMission(mission);
+    if (mission.id_metier) {
+      filterUsersByMetier(mission.id_metier);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
   };
 
   return (
     <div>
       <div className="someTitle admin">Gestion des Missions</div>
       <div>
-        <h2>Ajouter une mission :</h2>
-        <input 
-          type="text" 
-          name="libelle" 
-          placeholder="Libellé" 
-          value={newMission.libelle} 
-          onChange={handleInputChange} 
-        />
-        <input 
-          type="date" 
-          name="date" 
-          value={newMission.date} 
-          onChange={handleInputChange} 
-        />
-        <select 
-          name="id_commerce" 
-          value={newMission.id_commerce} 
-          onChange={handleInputChange} 
-        >
+        <h2>{newMission.id ? 'Modifier une mission' : 'Ajouter une mission'} :</h2>
+        <input type="text" name="libelle" placeholder="Libellé" value={newMission.libelle} onChange={handleInputChange} />
+        <input type="date" name="date" value={newMission.date} onChange={handleInputChange} />
+        <select name="id_statut_mission" value={newMission.id_statut_mission} onChange={handleInputChange}>
+          <option value="">Sélectionnez un statut</option>
+          {statutsMission.map(statut => (
+            <option key={statut.id} value={statut.id}>{statut.libelle}</option>
+          ))}
+        </select>
+        <select name="id_commerce" value={newMission.id_commerce} onChange={handleInputChange}>
           <option value="">Sélectionnez un commerce</option>
           {commerces.map(commerce => (
             <option key={commerce.id} value={commerce.id}>{commerce.libelle}</option>
           ))}
         </select>
-        <select 
-          name="id_attraction" 
-          value={newMission.id_attraction} 
-          onChange={handleInputChange} 
-        >
+        <select name="id_attraction" value={newMission.id_attraction} onChange={handleInputChange}>
           <option value="">Sélectionnez une attraction</option>
           {attractions.map(attraction => (
             <option key={attraction.id} value={attraction.id}>{attraction.nom}</option>
           ))}
         </select>
-        <input 
-          type="text" 
-          name="commentaire" 
-          placeholder="Commentaire" 
-          value={newMission.commentaire} 
-          onChange={handleInputChange} 
-        />
-        <select 
-          name="id_metier" 
-          value={newMission.id_metier} 
-          onChange={handleInputChange} 
-        >
+        <select name="id_metier" value={newMission.id_metier} onChange={handleInputChange}>
           <option value="">Sélectionnez un métier</option>
           {metiers.map(metier => (
             <option key={metier.id} value={metier.id}>{metier.libelle}</option>
           ))}
         </select>
-        <button onClick={newMission.id ? updateMission : addMission}>
+        <select name="email_utilisateur" value={newMission.email_utilisateur} onChange={handleInputChange}>
+          <option value="">Sélectionnez un email</option>
+          {filteredUsers.map(user => (
+            <option key={user.id} value={user.email}>{user.email}</option>
+          ))}
+        </select>
+        <input type="text" name="commentaire" placeholder="Commentaire" value={newMission.commentaire} onChange={handleInputChange} />
+        <button onClick={addOrUpdateMission}>
           {newMission.id ? 'Modifier' : 'Ajouter'}
         </button>
       </div>
@@ -248,14 +232,14 @@ const MissionsTable = () => {
               <td>{mission.libelle}</td>
               <td>{formatDate(mission.date)}</td>
               <td>{mission.email_utilisateur}</td>
-              <td>{getLibelleFromId(mission.id_statut_mission, statutsMission)}</td>
-              <td>{getLibelleFromId(mission.id_commerce, commerces)}</td>
-              <td>{getNomFromId(mission.id_attraction, attractions)}</td>
+              <td>{mission.id_statut_mission ? statutsMission.find(statut => statut.id === mission.id_statut_mission)?.libelle : ''}</td>
+              <td>{mission.id_commerce ? commerces.find(commerce => commerce.id === mission.id_commerce)?.libelle : ''}</td>
+              <td>{mission.id_attraction ? attractions.find(attraction => attraction.id === mission.id_attraction)?.nom : ''}</td>
               <td>{mission.commentaire}</td>
-              <td>{getLibelleFromId(mission.id_metier, metiers)}</td>
+              <td>{mission.id_metier ? metiers.find(metier => metier.id === mission.id_metier)?.libelle : ''}</td>
               <td>
-                <button onClick={() => deleteMission(mission.id)}>Supprimer</button>
                 <button onClick={() => handleEditMission(mission)}>Modifier</button>
+                <button onClick={() => deleteMission(mission.id)}>Supprimer</button>
               </td>
             </tr>
           ))}
@@ -263,6 +247,6 @@ const MissionsTable = () => {
       </table>
     </div>
   );
-};  
+};
 
 export default MissionsTable;

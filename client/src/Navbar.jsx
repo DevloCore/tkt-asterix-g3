@@ -61,7 +61,7 @@ const Navbar = (vars) => {
             )}
             {userCon.user && userCon.user.metier === 5 && (
               <li className="nav-item">
-              <span className={`nav-link ${isActive('/gestionboutique')}`} onClick={() => navigate("/gestionboutique")}>Gestion Boutique</span>
+              <span className={`nav-link ${isActive('/gestionboutiques')}`} onClick={() => navigate("/gestionboutiques")}>Gestion Boutiques</span>
             </li>
             )}
             {!userCon.user && (
