@@ -7,7 +7,7 @@ import { UserContext } from './assets/contexts/UserContext';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { setUser } = useContext(UserContext);
+    const { setUser, setLoading } = useContext(UserContext);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -19,6 +19,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
         axios.post('login', {
             username: email,
             password: password
@@ -43,6 +44,8 @@ const Login = () => {
         }).catch((error) => {
             alert(error);
             console.error(error);
+        }).finally(() => {
+            setLoading(false);
         });
     }
 

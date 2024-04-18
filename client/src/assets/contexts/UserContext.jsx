@@ -12,10 +12,11 @@ const UserProvider = ({ children }) => {
     catch (e) { }
     
     const [user, setUser] = useState(defaultUserValue);
+    const [loading, setLoading] = useState(false);
 
     // Provide the user state to the children components
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, loading, setLoading }}>
             {children}
         </UserContext.Provider>
     );

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './assets/Missions.css';
+import { useContext } from 'react';
+import { UserContext } from './assets/contexts/UserContext';
 
 const MissionsTable = () => {
+  const { setLoading } = useContext(UserContext);
+
   const [missions, setMissions] = useState([]);
   const [utilisateurs, setUtilisateurs] = useState([]);
   const [equipes, setEquipes] = useState([]);
@@ -24,6 +28,8 @@ const MissionsTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+
         const [missionsResponse, utilisateursResponse, equipesResponse, metiersResponse, statutsMissionResponse, commercesResponse, attractionsResponse] = await Promise.all([
           axios.get('missions'),
           axios.get('users'),
@@ -44,6 +50,9 @@ const MissionsTable = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
+      finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -59,6 +68,8 @@ const MissionsTable = () => {
 
   const addMission = async () => {
     try {
+      setLoading(true);
+
       await axios.post('addmission', newMission);
       setNewMission({
         libelle: '',
@@ -74,30 +85,45 @@ const MissionsTable = () => {
     } catch (error) {
       console.error('Error adding mission:', error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   const updateMission = async () => {
     try {
+      setLoading(true);
+
       await axios.patch(`/editmission/${newMission.id}`, newMission);
       refreshData();
     } catch (error) {
       console.error('Error updating mission:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
   const deleteMission = async (missionId) => {
     if(window.confirm("Voulez-vous vraiment supprimer la mission avec l'ID "+ missionId + " ?")) {
       try {
+        setLoading(true);
+
         await axios.delete(`/deletemission/${missionId}`);
         refreshData();
       } catch (error) {
         console.error('Error deleting mission:', error);
+      }
+      finally {
+        setLoading(false);
       }
     }
   };
 
   const refreshData = async () => {
     try {
+      setLoading(true);
+
       const [missionsResponse, utilisateursResponse, equipesResponse, metiersResponse, statutsMissionResponse, commercesResponse, attractionsResponse] = await Promise.all([
         axios.get('missions'),
         axios.get('users'),
@@ -117,6 +143,9 @@ const MissionsTable = () => {
       setAttractions(attractionsResponse.data);
     } catch (error) {
       console.error('Error refreshing data:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 

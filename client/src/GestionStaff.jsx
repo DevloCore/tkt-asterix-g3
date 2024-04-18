@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './assets/Missions.css';
+import { UserContext } from './assets/contexts/UserContext';
 
 const UsersTable = () => {
+  const { setLoading } = useContext(UserContext);
+
   const [users, setUsers] = useState([]);
   const [equipes, setEquipes] = useState([]);
   const [metiers, setMetiers] = useState([]);
@@ -19,6 +22,8 @@ const UsersTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+
         const [usersResponse, equipesResponse, metiersResponse] = await Promise.all([
           axios.get('users'),
           axios.get('equipes'),
@@ -30,6 +35,9 @@ const UsersTable = () => {
         setMetiers(metiersResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -46,6 +54,8 @@ const UsersTable = () => {
 
   const addUser = async () => {
     try {
+      setLoading(true);
+
       await axios.post('adduser', newUser);
       setUsers([...users, newUser]);
       setNewUser({
@@ -60,21 +70,31 @@ const UsersTable = () => {
     } catch (error) {
       console.error('Error adding user:', error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   const deleteUser = async (userId) => {
     if(window.confirm("Voulez vous vraiment supprimer l'utilisateur "+ userId + " ?")) {
       try {
+        setLoading(true);
+
         await axios.delete(`deleteuser/${userId}`);
         setUsers(users.filter(user => user.email !== userId));
       } catch (error) {
         console.error('Error deleting user:', error);
+      }
+      finally {
+        setLoading(false);
       }
     }
   };
 
   const updateUser = async (email, updatedUserInfo) => {
     try {
+      setLoading(true);
+
       await axios.patch(`/edituser/${email}`, updatedUserInfo);
       setUsers(users.map(user => {
         if (user.email === email) {
@@ -84,6 +104,9 @@ const UsersTable = () => {
       }));
     } catch (error) {
       console.error('Error updating user:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
   
@@ -99,6 +122,8 @@ const UsersTable = () => {
 
   const handleConfirmEdit = async (email) => {
     try {
+      setLoading(true);
+
       const updatedUser = {
         email: newUser.email,
         nom: newUser.nom,
@@ -113,8 +138,10 @@ const UsersTable = () => {
     } catch (error) {
       console.error('Error confirming edit:', error);
     }
+    finally {
+      setLoading(false);
+    }
   };
-  
 
   return (
     <div>
