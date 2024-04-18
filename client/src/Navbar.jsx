@@ -74,7 +74,7 @@ const Navbar = (vars) => {
               <span className={`nav-link text-danger`} onClick={() => {
                 localStorage.removeItem("apiToken");
                 localStorage.removeItem("user");
-                window.location.reload();
+                window.location = '/';
             }}>Se Déconnecter</span>
             </li>
             )}
