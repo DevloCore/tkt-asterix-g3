@@ -8,12 +8,12 @@ const Loading = () => {
     return (
         <>
             {userCon.loading && (
-                <div class="loadingScreen">
+                <div className="loadingScreen">
                     <div class="fulfilling-bouncing-circle-spinner">
-                        <div class="circle"></div>
-                        <div class="orbit"></div>
+                        <div className="circle"></div>
+                        <div className="orbit"></div>
                     </div>
-                    <span class="loadingText">Chargement...</span>
+                    <span className="loadingText">Chargement...</span>
                 </div>
             )}
         </>
