@@ -66,12 +66,12 @@ const Navbar = (vars) => {
             )}
             {!userCon.user && (
               <li className="nav-item">
-              <span className={`nav-link ${isActive('/login')}`} onClick={() => navigate("/login")}>Connexion</span>
+              <span className={`nav-link ${isActive('/login')} text-success`} onClick={() => navigate("/login")}>Connexion</span>
             </li>
             )}
             {userCon.user && (
               <li className="nav-item">
-              <span className={`nav-link`} onClick={() => {
+              <span className={`nav-link text-danger`} onClick={() => {
                 localStorage.removeItem("apiToken");
                 localStorage.removeItem("user");
                 window.location.reload();

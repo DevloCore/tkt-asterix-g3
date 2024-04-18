@@ -12,6 +12,7 @@ import GestionMissions from './GestionMissions.jsx'
 import Login from './Login.jsx'
 import { UserContext, UserProvider } from './assets/contexts/UserContext.jsx'
 import Boutiques from './Boutiques.jsx'
+import Loading from './assets/Loading.jsx'
 
 
 axios.interceptors.request.use((config) => {
@@ -37,9 +38,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <UserProvider>
-          <Navbar router={router} />
-          <div className="myBody"><RouterProvider router={router}>
-        </RouterProvider></div>
+      <Navbar router={router} />
+      <div className="myBody">
+        <RouterProvider router={router}></RouterProvider>
+      </div>
+      <Loading />
     </UserProvider>
   </React.StrictMode>,
 )

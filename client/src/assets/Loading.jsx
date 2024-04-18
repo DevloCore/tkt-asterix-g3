@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import './loading.css'
+import { UserContext } from './contexts/UserContext';
 
 const Loading = () => {
+    const userCon = useContext(UserContext);
+
     return (
-        <div className="loading">
-            <h1>Loading...</h1>
-            {/* Add any additional loading indicators or animations here */}
-        </div>
+        <>
+            {userCon.loading && (
+                <div class="loadingScreen">
+                    <div class="fulfilling-bouncing-circle-spinner">
+                        <div class="circle"></div>
+                        <div class="orbit"></div>
+                    </div>
+                    <span class="loadingText">Chargement...</span>
+                </div>
+            )}
+        </>
     );
 };
 

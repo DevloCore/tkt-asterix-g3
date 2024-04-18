@@ -3,6 +3,7 @@ import axios from 'axios';
 import './assets/attractions.css';
 import Icon from '@mdi/react';
 import { mdiHumanMaleHeightVariant, mdiHumanMaleChild, mdiArrowDownDropCircle, mdiCompassRose, mdiFilter } from '@mdi/js';
+import { UserContext } from './assets/contexts/UserContext';
 // import { UserContext } from './assets/contexts/UserContext';
 
 function Menu() {
@@ -11,7 +12,6 @@ function Menu() {
   const [filters, setFilters] = useState([]);
   const [themes, setThemes] = useState([]);
   const [commerces, setCommerces] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCommerce, setSelectedCommerce] = useState(null);
   const [stock, setStock] = useState(null);
 
@@ -20,13 +20,13 @@ function Menu() {
     setTaille(event.target.value);
   };
 
-  // const userCon = useContext(UserContext);
+  const userCon = useContext(UserContext);
 
   useEffect(() => {
-    // console.log(userCon.user);
-
     async function fetchData() {
       try {
+        userCon.setLoading(true);
+
         const attractionsResponse = await axios.get('attractions');
         const attractionsWithImages = await Promise.all(attractionsResponse.data.map(async attraction => {
           const imagesResponse = await axios.get(`attraction/${attraction.id}/images`);
@@ -43,11 +43,11 @@ function Menu() {
         } else {
           console.error('Data received is not in expected format');
         }
-
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setLoading(false);
+      }
+      finally {
+        userCon.setLoading(false);
       }
     }
 
@@ -60,6 +60,7 @@ function Menu() {
     const estAccompagne = event.currentTarget.elements.estAccompagne.checked;
 
     try {
+      userCon.setLoading(true);
       const response = await axios.get('filterAttractions', {
         params: {
           theme: theme,
@@ -71,6 +72,9 @@ function Menu() {
       setHasFilter(true);
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
+    finally {
+      userCon.setLoading(false);
     }
   }
 
@@ -88,10 +92,6 @@ function Menu() {
     setSelectedCommerce(idCommerce);
     fetchStock(idCommerce);
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className='container' style={{ maxWidth: "768px" }}>
