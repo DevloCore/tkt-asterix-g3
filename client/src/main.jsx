@@ -8,8 +8,11 @@ import Attractions from './Attractions.jsx'
 import axios from 'axios'
 import Navbar from './Navbar.jsx'
 import GestionStaff from './GestionStaff.jsx'
+import GestionMissions from './GestionMissions.jsx'
 import Login from './Login.jsx'
 import { UserContext, UserProvider } from './assets/contexts/UserContext.jsx'
+import Boutiques from './Boutiques.jsx'
+
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("apiToken");
@@ -27,6 +30,8 @@ const router = createBrowserRouter([
   { path: '/missions', element: <Missions /> },
   { path: '/avertissements', element: <Avertissements /> },
   { path: '/gestionstaff', element: <GestionStaff /> },
+  { path: '/gestionmissions', element: <GestionMissions /> },
+  { path: '/boutiques', element: <Boutiques /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

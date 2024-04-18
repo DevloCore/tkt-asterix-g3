@@ -2,7 +2,7 @@ import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
 import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAttractions, getAttractionsFiltered } from './controllers/AttractionController.js';
 import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesController.js';
-import { getMissions } from './controllers/MissionsController.js';
+import { getMissions, getStatutMissions, updateMission, addMission, deleteMission } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
 import { getAlerts,getGravite } from './controllers/AvertissementsController.js';
 import { getUtilisateurs, addUtilisateur, deleteUtilisateur, updateUtilisateur } from './controllers/UsersController.js';
@@ -43,6 +43,15 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer les missions
     app.get('/missions', getMissions);
+    // Route PATCH pour modifier mission
+    app.patch('/editmission/:id',updateMission);
+    // Route POST add mission
+    app.post('/addmission', addMission);
+    // Route DELETE pour supprimer une mission
+    app.delete('/deletemission/:id', deleteMission);
+
+    // Route GET statut missions
+    app.get('/missions/statuts', getStatutMissions);
     
     // Route GET pour récupérer les metiers
     app.get('/metiers', getMetiers);

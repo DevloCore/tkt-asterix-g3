@@ -118,7 +118,7 @@ const UsersTable = () => {
 
   return (
     <div>
-      <div class="someTitle admin">Panel Admin</div>
+      <div class="someTitle admin">Gestion du Staff</div>
       <div>
         <h2>Ajouter un utilisateur :</h2>
         <input 
