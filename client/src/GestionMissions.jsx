@@ -85,7 +85,7 @@ const MissionsTable = () => {
       refreshData();
       setLoading(true);
 
-      await axios.post('addmission', newMission);
+      await axios.post('admin/addmission', newMission);
       setNewMission({
         libelle: '',
         date: '',
@@ -106,7 +106,9 @@ const MissionsTable = () => {
 
   const updateMission = async () => {
     try {
-      await axios.patch(`/editmission/${newMission.id}`, newMission);
+      setLoading(true);
+
+      await axios.patch(`/admin/editmission/${newMission.id}`, newMission);
       refreshData();
     } catch (error) {
       console.error('Error updating mission:', error);
@@ -118,7 +120,7 @@ const MissionsTable = () => {
       try {
         setLoading(true);
 
-        await axios.delete(`/deletemission/${missionId}`);
+        await axios.delete(`/admin/deletemission/${missionId}`);
         refreshData();
       } catch (error) {
         console.error('Error deleting mission:', error);
