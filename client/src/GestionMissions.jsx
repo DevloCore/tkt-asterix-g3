@@ -106,9 +106,9 @@ const MissionsTable = () => {
 
   const updateMission = async () => {
     try {
-      setLoading(true);
-
       await axios.patch(`/admin/editmission/${newMission.id}`, newMission);
+
+      setLoading(true);
       refreshData();
     } catch (error) {
       console.error('Error updating mission:', error);
