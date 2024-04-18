@@ -38,7 +38,7 @@ const Navbar = (vars) => {
               <ul className="dropdown-menu">
                 <li><span className={`dropdown-item ${isActive('/attractions')}`} onClick={() => navigate("/attractions")}>Attractions</span></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
+                <li><a className={`dropdown-item ${isActive('/boutiques')}`} onClick={() => navigate("/boutiques")}>Boutiques</a></li>
               </ul>
             </li>
             <li className="nav-item">
@@ -64,9 +64,17 @@ const Navbar = (vars) => {
               <span className={`nav-link ${isActive('/gestionboutique')}`} onClick={() => navigate("/gestionboutique")}>Gestion Boutique</span>
             </li>
             )}
-            <li className="nav-item">
+            {!userCon.user && (
+              <li className="nav-item">
               <span className={`nav-link ${isActive('/login')}`} onClick={() => navigate("/login")}>Connexion</span>
             </li>
+            )}
+            {userCon.user && (
+              <li className="nav-item">
+              <span className={`nav-link ${isActive('/logout')}`} onClick={() => navigate("/logout")}>Se Déconnecter</span>
+            </li>
+            )}
+            
           </ul>
         </div>
       </div>
