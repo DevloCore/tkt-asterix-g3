@@ -32,3 +32,48 @@ export const getProduitsByCommerceId = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Dans CommercesController.js
+
+export const updateProductStock = async (req, res) => {
+    const { id_commerce, id_produit } = req.params;  // Extraction des paramètres de l'URL
+    const { quantite } = req.body;  // Extraction de la quantité du corps de la requête
+
+    try {
+        const existingProduct = await db('STOCKER')
+            .where({ id_commerce: id_commerce, id_produit: id_produit })
+            .first();  // Vérifier si l'entrée existe déjà
+
+        if (existingProduct) {
+            // Mise à jour de la quantité si le produit existe déjà
+            await db('STOCKER')
+                .where({ id_commerce: id_commerce, id_produit: id_produit })
+                .update({ quantite: quantite });
+        } else {
+            // Créer une nouvelle entrée si le produit n'existe pas dans le stock
+            await db('STOCKER').insert({
+                id_commerce: id_commerce,
+                id_produit: id_produit,
+                quantite: quantite
+            });
+        }
+
+        res.json({ message: 'Stock updated successfully' });
+    } catch (error) {
+        console.error('Error updating or creating stock:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getProducts = async (req, res) => {
+    try {
+        // Récupérer tous les produits depuis la base de données
+        const produits = await db.select('*').from('PRODUIT');
+        
+        // Renvoyer les produits en réponse
+        res.json(produits);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

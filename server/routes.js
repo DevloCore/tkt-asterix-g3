@@ -1,7 +1,7 @@
 import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
 import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAttractions, getAttractionsFiltered } from './controllers/AttractionController.js';
-import { getCommerces, getProduitsByCommerceId } from './controllers/CommercesController.js';
+import { getCommerces, getProduitsByCommerceId, updateProductStock,getProducts } from './controllers/CommercesController.js';
 import { getMissions, getStatutMissions, updateMission, addMission, deleteMission } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
 import { getAlerts,getGravite } from './controllers/AvertissementsController.js';
@@ -34,6 +34,10 @@ export default function(/** @type { import('express').IRouter } */ app) {
 
     // Route GET pour récupérer toutes les commerces
     app.get('/commerces', getCommerces);
+
+    app.put('/commerces/:id_commerce/produits/:id_produit', updateProductStock);
+
+    app.get('/produits', getProducts);
 
     // Route GET pour récupérer les produits d'un commerce spécifique en utilisant son ID
     app.get('/commerces/:id_commerce/produits', getProduitsByCommerceId);
