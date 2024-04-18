@@ -3,26 +3,28 @@ import axios from 'axios';
 import './assets/attractions.css';
 import Icon from '@mdi/react';
 import { mdiHumanMaleHeightVariant, mdiHumanMaleChild, mdiArrowDownDropCircle, mdiCompassRose, mdiFilter } from '@mdi/js';
-// import { UserContext } from './assets/contexts/UserContext';
+import { UserContext } from './assets/contexts/UserContext';
 
 function Menu() {
   const [commerces, setCommerces] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCommerce, setSelectedCommerce] = useState(null);
   const [stock, setStock] = useState(null);
 
-  // const userCon = useContext(UserContext);
+  const { setLoading } = useContext(UserContext);
 
   useEffect(() => {
     // console.log(userCon.user);
 
     async function fetchData() {
       try {
+        setLoading(true);
+
         const commercesResponse = await axios.get('commerces');
         setCommerces(commercesResponse.data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
+      }
+      finally {
         setLoading(false);
       }
     }
@@ -43,10 +45,6 @@ function Menu() {
     setSelectedCommerce(idCommerce);
     fetchStock(idCommerce);
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
     return (
       <div> {/* Wrapper div for the entire component */}

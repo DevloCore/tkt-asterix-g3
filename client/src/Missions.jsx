@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './assets/Missions.css';
+import { UserContext } from './assets/contexts/UserContext';
 
 const MissionTable = () => {
   const [missions, setMissions] = useState([]);
   const [metiers, setMetiers] = useState({});
 
+  const { setLoading } = useContext(UserContext);
+
   useEffect(() => {
     const fetchMissions = async () => {
       try {
+        setLoading(true);
+
         const missionsResponse = await axios.get('missions');
         const metiersResponse = await axios.get('metiers');
 
@@ -24,6 +29,9 @@ const MissionTable = () => {
         setMissions(updatedMissions);
       } catch (error) {
         console.error('Error fetching missions:', error);
+      }
+      finally {
+        setLoading(false);
       }
     };
 

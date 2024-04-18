@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './assets/Missions.css';
+import { UserContext } from './assets/contexts/UserContext';
 
 const AlertsTable = () => {
   const [avertissements, setAvertissements] = useState([]);
   const [gravites, setGravites] = useState({});
 
+  const { setLoading } = useContext(UserContext);
+
   useEffect(() => {
     const fetchAvertissements = async () => {
       try {
+        setLoading(true);
+
         const alertsResponse = await axios.get('avertissements');
         const gravitesResponse = await axios.get('gravites');
 
@@ -24,6 +29,9 @@ const AlertsTable = () => {
         setAvertissements(updatedAvertissements);
       } catch (error) {
         console.error('Error fetching avertissements:', error);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
