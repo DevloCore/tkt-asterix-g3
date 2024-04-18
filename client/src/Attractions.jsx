@@ -15,7 +15,7 @@ function Menu() {
   const [selectedCommerce, setSelectedCommerce] = useState(null);
   const [stock, setStock] = useState(null);
 
-  const [taille, setTaille] = useState(50);
+  const [taille, setTaille] = useState(160);
   const handleTailleChange = (event) => {
     setTaille(event.target.value);
   };
@@ -117,7 +117,7 @@ function Menu() {
             <div className="mb-3">
               {/* slider pour choisir une taille en cm */}
               <label htmlFor="tailleMin" className="form-label">Votre taille : <b>{taille} cm</b></label>
-              <input type="range" className="form-range custom-range" id="tailleMin" min="50" max="200" step="1" onChange={handleTailleChange}/>
+              <input type="range" className="form-range custom-range" id="tailleMin" min="50" max="200" step="1" onChange={handleTailleChange} value={taille}/>
             </div>
             <div className="mb-3">
               <input type="checkbox" id="estAccompagne" className="form-check-input" />
