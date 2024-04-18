@@ -13,18 +13,21 @@ export function betterText(text) {
 }
 
 export function isAdmin(request, response, next) {
+    const payload = getUserPayload(request);
+    if(payload && payload.admin) next();
+    else response.sendStatus(401);
+}
+
+export function getUserPayload(request) {
     const bearerHeader = request.headers.authorization;
     if(bearerHeader) {
         const token = bearerHeader.split(' ')[1];
-        jwt.verify(token, jwtPrivateKey, function(error, payload) {
-            if(error || !payload.admin) response.sendStatus(401);
-            else {
-                request.payload = payload;
-                next();
-            }
+        return jwt.verify(token, jwtPrivateKey, function(error, payload) {
+            if(!error) return payload;
+            else return undefined;
         })
     }
-    else response.sendStatus(401);
+    else return undefined;
 }
 
 Array.prototype.shuffle = function () {

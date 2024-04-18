@@ -1,14 +1,19 @@
 import db from '../db.js';
+import { getUserPayload } from '../helper.js';
 
 // Fonction pour récupérer toutes les missions depuis la base de données
 export const getMissions = async (req, res) => {
     try {
-        const missions = await db.select().from('MISSION');
-        
-        res.json(missions);
+      const payload = getUserPayload(req);
+      if(!payload) { res.status(404); return; }
+      var missions = db.select().from('MISSION');
+      if(!payload.admin) missions.where('email_utilisateur', payload.email);
+      missions = await missions;
+      
+      res.json(missions);
     } catch (error) {
-        console.error('Error while fetching missions:', error);
-        res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while fetching missions:', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
 };
 

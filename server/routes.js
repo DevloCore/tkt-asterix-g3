@@ -48,11 +48,11 @@ export default function(/** @type { import('express').IRouter } */ app) {
     // Route GET pour récupérer les missions
     app.get('/missions', getMissions);
     // Route PATCH pour modifier mission
-    app.patch('/editmission/:id',updateMission);
+    app.patch('/admin/editmission/:id',updateMission);
     // Route POST add mission
-    app.post('/addmission', addMission);
+    app.post('/admin/addmission', addMission);
     // Route DELETE pour supprimer une mission
-    app.delete('/deletemission/:id', deleteMission);
+    app.delete('/admin/deletemission/:id', deleteMission);
 
     // Route GET statut missions
     app.get('/missions/statuts', getStatutMissions);
