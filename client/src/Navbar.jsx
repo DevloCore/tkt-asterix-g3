@@ -54,7 +54,7 @@ const Navbar = (vars) => {
                   Panel Admin
                 </a>
                 <ul className="dropdown-menu">
-                  <li><span className={`dropdown-item ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Gestion Personels</span></li>
+                  <li><span className={`dropdown-item ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Gestion Personnel</span></li>
                   <li><span className={`dropdown-item ${isActive('/gestionmissions')}`} onClick={() => navigate("/gestionmissions")}>Gestion Missions</span></li>
                 </ul>
               </li>
