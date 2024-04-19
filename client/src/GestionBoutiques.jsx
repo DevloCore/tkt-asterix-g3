@@ -8,7 +8,7 @@ function Menu() {
   const [selectedCommerce, setSelectedCommerce] = useState(null);
   const [stock, setStock] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
-  const [newProductQuantity, setNewProductQuantity] = useState(''); // Pour ajouter ou modifier la quantité
+  const [newProductQuantity, setNewProductQuantity] = useState(0); 
 
   useEffect(() => {
     async function fetchData() {
@@ -54,9 +54,24 @@ function Menu() {
 
   const handleSelectProduct = (productId) => {
     setSelectedProduct(productId);
-    const selected = stock.find(item => item.id_produit === productId);
-    setNewProductQuantity(selected ? selected.quantite : '');
+    if (!productId || !selectedCommerce) return;  // Vérifier que le commerce et le produit sont bien sélectionnés
+  
+    const fetchProductQuantity = async () => {
+      try {
+        const response = await axios.get(`commerces/${selectedCommerce}/produits/${productId}/quantite`);
+        // Si la quantité est nulle ou indéfinie, utiliser 0 comme valeur par défaut
+        const quantity = response.data && response.data.quantite != null ? response.data.quantite : 0;
+        setNewProductQuantity(quantity);
+      } catch (error) {
+        console.error('Error fetching product quantity:', error);
+        setNewProductQuantity(0); // Mettre à 0 si une erreur survient
+      }
+    };
+  
+    fetchProductQuantity();
   };
+  
+  
 
   const handleQuantityChange = (e) => {
     setNewProductQuantity(e.target.value);
@@ -77,26 +92,31 @@ function Menu() {
         <div className="popup">
           <div className="popup-content">
             <h3>Stock du Commerce {selectedCommerce} :</h3>
-            <select onChange={(e) => handleSelectProduct(e.target.value)} value={selectedProduct}>
-              <option value="">Selectionner un produit</option>
+            <select
+              onChange={(e) => handleSelectProduct(e.target.value)}
+              value={selectedProduct}
+              disabled={stock.length === 0} // Désactive le select si stock n'est pas encore chargé
+            >
+              <option value="">Sélectionner un produit</option>
               {products.map(product => (
                 <option key={product.id} value={product.id}>{product.libelleProduit}</option>
               ))}
             </select>
 
             {selectedProduct && (
-                <div>
-                    <h4>Quantité Actuelle pour {products.find(p => p.id === selectedProduct)?.libelleProduit}:</h4>
-                    <input
-                    type="number"
-                    value={newProductQuantity}
-                    onChange={handleQuantityChange}
-                    />
-                    <button onClick={() => updateProductQuantity(selectedProduct, newProductQuantity)}>
-                    Update Quantity
-                    </button>
-                </div>
-                )}
+            <div>
+              <h4>Quantité Actuelle pour {products.find(p => p.id === selectedProduct)?.libelleProduit}:</h4>
+              <input
+                type="number"
+                value={newProductQuantity}
+                onChange={handleQuantityChange}
+              />
+              <button onClick={() => updateProductQuantity(selectedProduct, newProductQuantity)}>
+                Mettre à jour Quantité
+              </button>
+            </div>
+          )}
+
 
             <button onClick={() => setSelectedCommerce(null)}>Close</button>
           </div>

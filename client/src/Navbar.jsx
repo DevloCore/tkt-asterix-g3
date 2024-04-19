@@ -41,12 +41,15 @@ const Navbar = (vars) => {
                 <li><a className={`dropdown-item ${isActive('/boutiques')}`} onClick={() => navigate("/boutiques")}>Boutiques</a></li>
               </ul>
             </li>
+            {userCon.user && (
             <li className="nav-item">
               <span className={`nav-link ${isActive('/missions')}`} onClick={() => navigate("/missions")}>Missions</span>
             </li>
+            )}
             <li className="nav-item">
               <span className={`nav-link ${isActive('/avertissements')}`} onClick={() => navigate("/avertissements")}>Avertissements</span>
             </li>
+
 
             {userCon.user && userCon.user.admin === 1 && (
               <li className="nav-item dropdown">
@@ -56,6 +59,7 @@ const Navbar = (vars) => {
                 <ul className="dropdown-menu">
                   <li><span className={`dropdown-item ${isActive('/gestionstaff')}`} onClick={() => navigate("/gestionstaff")}>Gestion Personnel</span></li>
                   <li><span className={`dropdown-item ${isActive('/gestionmissions')}`} onClick={() => navigate("/gestionmissions")}>Gestion Missions</span></li>
+                  <li><span className={`dropdown-item ${isActive('/gestionalerts')}`} onClick={() => navigate("/gestionalerts")}>Gestion Avertissements</span></li>
                 </ul>
               </li>
             )}
