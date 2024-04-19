@@ -4,30 +4,26 @@ import './assets/Missions.css';
 import { UserContext } from './assets/contexts/UserContext';
 
 const AlertsTable = () => {
-  const { setLoading } = useContext(UserContext);
+  const { setLoading, user } = useContext(UserContext);
   const [avertissements, setAvertissements] = useState([]);
   const [gravites, setGravites] = useState([]);
   const [newAvertissement, setNewAvertissement] = useState({
     motif: '',
     id_gravite: '',
-    email_utilisateur: '' // Supposons que vous collectiez toujours cet info
+    email_utilisateur: user ? user.email : '' // Suppose that the email of the user is stored in user.email
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+    setLoading(true);
+    async function fetchData() {
       try {
-        setLoading(true);
-
-        const alertsResponse = await axios.get('avertissements');
-        const gravitesResponse = await axios.get('gravites');
-
-        // Convertir les dates au format souhaité
+        const [alertsResponse, gravitesResponse] = await Promise.all([
+          axios.get('/avertissements'),
+          axios.get('/gravites')
+        ]);
         const updatedAvertissements = alertsResponse.data.map(avertissement => ({
           ...avertissement,
-          // Convertir la date au format 'YYYY-MM-DD'
           date: new Date(avertissement.date).toLocaleDateString('fr-FR'),
-          // Récupérer le libellé associé à l'ID de gravité
           graviteLibelle: gravitesResponse.data.find(gravite => gravite.id === avertissement.id_gravite)?.libelle || ''
         }));
         setGravites(gravitesResponse.data);
@@ -37,7 +33,7 @@ const AlertsTable = () => {
       } finally {
         setLoading(false);
       }
-    };
+    }
     fetchData();
   }, [setLoading]);
 
@@ -49,13 +45,12 @@ const AlertsTable = () => {
   const addAvertissement = async () => {
     setLoading(true);
     try {
-      var { data } = await axios.post('/avertissements', newAvertissement);
-      data = {
+      const { data } = await axios.post('/avertissements', newAvertissement);
+      setAvertissements(prev => [...prev, {
         ...data,
-        date: new Date(data.date).toLocaleDateString('fr-FR'),
-      };
-      setAvertissements(prev => [...prev, data]);
-      setNewAvertissement({ motif: '', id_gravite: '' });
+        date: new Date(data.date).toLocaleDateString('fr-FR')
+      }]);
+      setNewAvertissement({ motif: '', id_gravite: '', email_utilisateur: user ? user.email : '' });
     } catch (error) {
       console.error('Failed to add avertissement:', error);
     } finally {
@@ -66,17 +61,19 @@ const AlertsTable = () => {
   return (
     <div>
       <div className="someTitle avertissements">Avertissements</div>
-      <div>
-        <input type="text" name="motif" placeholder="Motif" value={newAvertissement.motif} onChange={handleInputChange} />
-        <select name="id_gravite" value={newAvertissement.id_gravite} onChange={handleInputChange}>
-          <option value="">Sélectionnez la gravité</option>
-          {gravites.map(g => (
-            <option key={g.id} value={g.id}>{g.libelle}</option>
-          ))}
-        </select>
-        
-        <button onClick={addAvertissement}>Ajouter</button>
-      </div>
+      {user && (
+        <div>
+          <input type="text" name="motif" placeholder="Motif" value={newAvertissement.motif} onChange={handleInputChange} />
+          <select name="id_gravite" value={newAvertissement.id_gravite} onChange={handleInputChange}>
+            <option value="">Sélectionnez la gravité</option>
+            {gravites.map(g => (
+              <option key={g.id} value={g.id}>{g.libelle}</option>
+            ))}
+          </select>
+          
+          <button onClick={addAvertissement}>Ajouter</button>
+        </div>
+      )}
       <table className="table table-danger table-striped mTable">
         <thead>
           <tr>
