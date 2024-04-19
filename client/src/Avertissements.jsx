@@ -41,7 +41,7 @@ const AlertsTable = () => {
   return (
     <div>
       <div class="someTitle avertissements">Avertissements</div>
-      <table className="mission-table">
+      <table className="table table-danger table-striped mTable">
         <thead>
           <tr>
             <th>ID</th>

@@ -46,8 +46,12 @@ background-size: cover;
     background-color: #00a581;
 }
 .someTitle.missions {
-    background-color: #ced500;
+    background-color: #d1d80c;
 }
 .someTitle.avertissements {
     background-color: #8b3800;
+}
+
+.mTable {
+    border: 1px solid #53535379;
 }

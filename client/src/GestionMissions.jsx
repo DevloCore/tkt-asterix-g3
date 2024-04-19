@@ -3,6 +3,8 @@ import axios from 'axios';
 import './assets/Missions.css';
 import { useContext } from 'react';
 import { UserContext } from './assets/contexts/UserContext';
+import Icon from '@mdi/react';
+import { mdiPlus } from '@mdi/js';
 
 const MissionsTable = () => {
   const { setLoading } = useContext(UserContext);
@@ -116,7 +118,7 @@ const MissionsTable = () => {
   };
 
   const deleteMission = async (missionId) => {
-    if(window.confirm("Voulez-vous vraiment supprimer cette mission ?")) {
+    if (window.confirm("Voulez-vous vraiment supprimer cette mission ?")) {
       try {
         setLoading(true);
 
@@ -161,6 +163,7 @@ const MissionsTable = () => {
   };
 
   const handleEditMission = (mission) => {
+    document.getElementById('collapseAdd').classList.add('show');
     setNewMission(mission);
     if (mission.id_metier) {
       filterUsersByMetier(mission.id_metier);
@@ -175,46 +178,80 @@ const MissionsTable = () => {
   return (
     <div>
       <div className="someTitle admin">Gestion des Missions</div>
-      <div>
-        <h2>{newMission.id ? 'Modifier une mission' : 'Ajouter une mission'} :</h2>
-        <input type="text" name="libelle" placeholder="Libellé" value={newMission.libelle} onChange={handleInputChange} />
-        <input type="date" name="date" value={newMission.date} onChange={handleInputChange} />
-        <select name="id_statut_mission" value={newMission.id_statut_mission} onChange={handleInputChange}>
-          <option value="">Sélectionnez un statut</option>
-          {statutsMission.map(statut => (
-            <option key={statut.id} value={statut.id}>{statut.libelle}</option>
-          ))}
-        </select>
-        <select name="id_commerce" value={newMission.id_commerce} onChange={handleInputChange}>
-          <option value="">Sélectionnez un commerce</option>
-          {commerces.map(commerce => (
-            <option key={commerce.id} value={commerce.id}>{commerce.libelle}</option>
-          ))}
-        </select>
-        <select name="id_attraction" value={newMission.id_attraction} onChange={handleInputChange}>
-          <option value="">Sélectionnez une attraction</option>
-          {attractions.map(attraction => (
-            <option key={attraction.id} value={attraction.id}>{attraction.nom}</option>
-          ))}
-        </select>
-        <select name="id_metier" value={newMission.id_metier} onChange={handleInputChange}>
-          <option value="">Sélectionnez un métier</option>
-          {metiers.map(metier => (
-            <option key={metier.id} value={metier.id}>{metier.libelle}</option>
-          ))}
-        </select>
-        <select name="email_utilisateur" value={newMission.email_utilisateur} onChange={handleInputChange}>
-          <option value="">Sélectionnez un email</option>
-          {filteredUsers.map(user => (
-            <option key={user.id} value={user.email}>{user.email}</option>
-          ))}
-        </select>
-        <input type="text" name="commentaire" placeholder="Commentaire" value={newMission.commentaire} onChange={handleInputChange} />
-        <button onClick={addOrUpdateMission}>
-          {newMission.id ? 'Modifier' : 'Ajouter'}
+
+      <div className="d-flex justify-content-center mb-2">
+        <button className="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target={`#collapseAdd`} aria-expanded="false" aria-controls="collapseExample">
+          <Icon path={mdiPlus} size={1} /> Afficher le formulaire de gestion
         </button>
       </div>
-      <table className="mission-table">
+
+      <div className="collapse mb-2" id='collapseAdd'>
+        <div className="card card-body bg-light p-4">
+          <h2>{newMission.id ? 'Modifier une mission' : 'Ajouter une mission'} :</h2>
+          <div className="form-group">
+            <label htmlFor="libelle">Libellé:</label>
+            <input type="text" className="form-control" id="libelle" name="libelle" placeholder="Libellé" value={newMission.libelle} onChange={handleInputChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="date">Date:</label>
+            <input type="date" className="form-control" id="date" name="date" value={newMission.date} onChange={handleInputChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="id_statut_mission">Statut:</label>
+            <select className="form-control" id="id_statut_mission" name="id_statut_mission" value={newMission.id_statut_mission} onChange={handleInputChange}>
+              <option value="">Sélectionnez un statut</option>
+              {statutsMission.map(statut => (
+                <option key={statut.id} value={statut.id}>{statut.libelle}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="id_commerce">Commerce:</label>
+            <select className="form-control" id="id_commerce" name="id_commerce" value={newMission.id_commerce} onChange={handleInputChange}>
+              <option value="">Sélectionnez un commerce</option>
+              {commerces.map(commerce => (
+                <option key={commerce.id} value={commerce.id}>{commerce.libelle}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="id_attraction">Attraction:</label>
+            <select className="form-control" id="id_attraction" name="id_attraction" value={newMission.id_attraction} onChange={handleInputChange}>
+              <option value="">Sélectionnez une attraction</option>
+              {attractions.map(attraction => (
+                <option key={attraction.id} value={attraction.id}>{attraction.nom}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="id_metier">Métier:</label>
+            <select className="form-control" id="id_metier" name="id_metier" value={newMission.id_metier} onChange={handleInputChange}>
+              <option value="">Sélectionnez un métier</option>
+              {metiers.map(metier => (
+                <option key={metier.id} value={metier.id}>{metier.libelle}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="email_utilisateur">Email de l'utilisateur:</label>
+            <select className="form-control" id="email_utilisateur" name="email_utilisateur" value={newMission.email_utilisateur} onChange={handleInputChange}>
+              <option value="">Sélectionnez un email</option>
+              {filteredUsers.map(user => (
+                <option key={user.id} value={user.email}>{user.email}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="commentaire">Commentaire:</label>
+            <input type="text" className="form-control" id="commentaire" name="commentaire" placeholder="Commentaire" value={newMission.commentaire} onChange={handleInputChange} />
+          </div>
+          <button className="btn btn-primary mt-4" onClick={addOrUpdateMission}>
+            {newMission.id ? 'Modifier' : 'Ajouter'}
+          </button>
+        </div>
+      </div>
+
+      <table className="table table-primary table-striped mTable">
         <thead>
           <tr>
             <th>Libellé</th>
@@ -240,8 +277,8 @@ const MissionsTable = () => {
               <td>{mission.commentaire}</td>
               <td>{mission.id_metier ? metiers.find(metier => metier.id === mission.id_metier)?.libelle : ''}</td>
               <td>
-                <button onClick={() => handleEditMission(mission)}>Modifier</button>
-                <button onClick={() => deleteMission(mission.id)}>Supprimer</button>
+                <button className="btn btn-primary" onClick={() => handleEditMission(mission)}>Modifier</button>
+                <button className="btn btn-danger" onClick={() => deleteMission(mission.id)}>Supprimer</button>
               </td>
             </tr>
           ))}
