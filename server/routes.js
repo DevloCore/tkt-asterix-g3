@@ -68,8 +68,8 @@ app.get('/commerces/:id_commerce/produits/:id_produit/quantite', getProductQuant
     // Route GET pour récupérer les alerts
     app.get('/avertissements', getAlerts);
     app.post('/avertissements', createAvertissement);
-    app.put('/avertissements/:id', updateAvertissement);
-    app.delete('/avertissements/:id', deleteAvertissement);
+    app.put('/admin/avertissements/:id', updateAvertissement);
+    app.delete('/admin/avertissements/:id', deleteAvertissement);
     // Route GET pour récupérer les gravités
     app.get('/gravites', getGravite);
 

@@ -43,7 +43,7 @@ const AlertsTable = () => {
 
   const saveAvertissement = async () => {
     const method = editAvertissement.id ? 'put' : 'post';
-    const url = editAvertissement.id ? `/avertissements/${editAvertissement.id}` : '/avertissements';
+    const url = editAvertissement.id ? `/admin/avertissements/${editAvertissement.id}` : '/avertissements';
     setLoading(true);
     try {
       var { data } = await axios[method](url, editAvertissement);
@@ -77,7 +77,7 @@ const AlertsTable = () => {
     if (window.confirm("Confirmez-vous la suppression de cet avertissement ?")) {
       setLoading(true);
       try {
-        await axios.delete(`/avertissements/${id}`);
+        await axios.delete(`/admin/avertissements/${id}`);
         setAvertissements(prev => prev.filter(a => a.id !== id));
       } catch (error) {
         console.error('Failed to delete avertissement:', error);
