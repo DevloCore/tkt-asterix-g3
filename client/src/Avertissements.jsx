@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './assets/Missions.css';
 import { UserContext } from './assets/contexts/UserContext';
+import Icon from '@mdi/react';
+import { mdiPlus } from '@mdi/js';
 
 const AlertsTable = () => {
   const { setLoading, user } = useContext(UserContext);
@@ -10,7 +12,7 @@ const AlertsTable = () => {
   const [newAvertissement, setNewAvertissement] = useState({
     motif: '',
     id_gravite: '',
-    email_utilisateur: user ? user.email : '' // Suppose that the email of the user is stored in user.email
+    email_utilisateur: user ? user.email : ''
   });
 
   useEffect(() => {
@@ -62,17 +64,33 @@ const AlertsTable = () => {
     <div>
       <div className="someTitle avertissements">Avertissements</div>
       {user && (
-        <div>
-          <input type="text" name="motif" placeholder="Motif" value={newAvertissement.motif} onChange={handleInputChange} />
-          <select name="id_gravite" value={newAvertissement.id_gravite} onChange={handleInputChange}>
-            <option value="">Sélectionnez la gravité</option>
-            {gravites.map(g => (
-              <option key={g.id} value={g.id}>{g.libelle}</option>
-            ))}
-          </select>
-          
-          <button onClick={addAvertissement}>Ajouter</button>
-        </div>
+        <>
+          <div className="d-flex justify-content-center mb-2">
+            <button className="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAdd" aria-expanded="false" aria-controls="collapseAdd">
+            <Icon path={mdiPlus} size={1} /> Ajouter un avertissement
+            </button>
+          </div>
+
+          <div className="collapse mb-2" id="collapseAdd">
+            <div className="card card-body bg-light p-4">
+              <h2>Ajouter un avertissement :</h2>
+              <div className="form-grou mb-3">
+                <label htmlFor="motif">Motif:</label>
+                <input type="text" className="form-control" id="motif" name="motif" placeholder="Motif" value={newAvertissement.motif} onChange={handleInputChange} />
+              </div>
+              <div className="form-group mb-3">
+                <label htmlFor="id_gravite">Gravité:</label>
+                <select className="form-control" id="id_gravite" name="id_gravite" value={newAvertissement.id_gravite} onChange={handleInputChange}>
+                  <option value="">Sélectionnez la gravité</option>
+                  {gravites.map(g => (
+                    <option key={g.id} value={g.id}>{g.libelle}</option>
+                  ))}
+                </select>
+              </div>
+              <button className="btn btn-primary" onClick={addAvertissement}>Ajouter</button>
+            </div>
+          </div>
+        </>
       )}
       <table className="table table-danger table-striped mTable">
         <thead>
