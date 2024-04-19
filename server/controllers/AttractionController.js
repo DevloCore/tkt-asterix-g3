@@ -3,7 +3,6 @@ import db from '../db.js';
 // Fonction pour récupérer toutes les attractions depuis la base de données
 export const getAttractions = async (req, res) => {
     try {
-        console.log(req.query)
         // Récupérer toutes les attractions depuis la base de données en utilisant knex
         const attractions = await db.select().from('ATTRACTION');
         
