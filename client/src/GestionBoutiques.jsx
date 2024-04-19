@@ -103,6 +103,11 @@ function Menu() {
             </select>
 
             {selectedProduct && (
+              <div className='d-flex justify-content-center mt-2'>
+              <button className="btn btn-secondary" onClick={() => setSelectedCommerce(null)}>Fermer le menu</button>
+            </div>
+            )}
+              </div>
               <div className='mt-4'>
                 <div className='d-flex justify-content-center'><h4>Quantité actuelle pour <span className='text-primary fw-bold'>{products.find(p => p.id == selectedProduct)?.libelleProduit}</span></h4></div>
                 <input
@@ -116,11 +121,6 @@ function Menu() {
                     Mettre à jour quantité
                   </button>
                 </div>
-              </div>
-            )}
-            <div className='d-flex justify-content-center mt-2'>
-              <button className="btn btn-secondary" onClick={() => setSelectedCommerce(null)}>Fermer le menu</button>
-            </div>
           </div>
         </div>
       )}
