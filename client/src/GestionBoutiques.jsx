@@ -8,7 +8,7 @@ function Menu() {
   const [selectedCommerce, setSelectedCommerce] = useState(null);
   const [stock, setStock] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
-  const [newProductQuantity, setNewProductQuantity] = useState(0); 
+  const [newProductQuantity, setNewProductQuantity] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,7 +55,7 @@ function Menu() {
   const handleSelectProduct = (productId) => {
     setSelectedProduct(productId);
     if (!productId || !selectedCommerce) return;  // Vérifier que le commerce et le produit sont bien sélectionnés
-  
+
     const fetchProductQuantity = async () => {
       try {
         const response = await axios.get(`commerces/${selectedCommerce}/produits/${productId}/quantite`);
@@ -67,10 +67,10 @@ function Menu() {
         setNewProductQuantity(0); // Mettre à 0 si une erreur survient
       }
     };
-  
+
     fetchProductQuantity();
   };
-  
+
   const handleQuantityChange = (e) => {
     setNewProductQuantity(e.target.value);
   };
@@ -89,7 +89,7 @@ function Menu() {
       {selectedCommerce && (
         <div className="popup mt-4">
           <div className="popup-content">
-          <div className='d-flex justify-content-center'><h4>Stock du commerce <span className='text-success fw-bold'>{selectedCommerce}</span></h4></div>
+            <div className='d-flex justify-content-center'><h4>Stock du commerce <span className='text-success fw-bold'>{selectedCommerce}</span></h4></div>
             <select
               className="form-select"
               onChange={(e) => handleSelectProduct(e.target.value)}
@@ -102,25 +102,26 @@ function Menu() {
               ))}
             </select>
 
-            {selectedProduct && (
+          </div>
+          {selectedProduct && (
+            <div className='mt-4'>
+              <div className='d-flex justify-content-center'><h4>Quantité actuelle pour <span className='text-primary fw-bold'>{products.find(p => p.id == selectedProduct)?.libelleProduit}</span></h4></div>
+              <input
+                className="form-control"
+                type="number"
+                value={newProductQuantity}
+                onChange={handleQuantityChange}
+              />
               <div className='d-flex justify-content-center mt-2'>
-              <button className="btn btn-secondary" onClick={() => setSelectedCommerce(null)}>Fermer le menu</button>
-            </div>
-            )}
+                <button className="btn btn-primary" onClick={() => updateProductQuantity(selectedProduct, newProductQuantity)}>
+                  Mettre à jour quantité
+                </button>
               </div>
-              <div className='mt-4'>
-                <div className='d-flex justify-content-center'><h4>Quantité actuelle pour <span className='text-primary fw-bold'>{products.find(p => p.id == selectedProduct)?.libelleProduit}</span></h4></div>
-                <input
-                  className="form-control"
-                  type="number"
-                  value={newProductQuantity}
-                  onChange={handleQuantityChange}
-                />
-                <div className='d-flex justify-content-center mt-2'>
-                  <button className="btn btn-primary" onClick={() => updateProductQuantity(selectedProduct, newProductQuantity)}>
-                    Mettre à jour quantité
-                  </button>
-                </div>
+            </div>
+
+          )}
+          <div className='d-flex justify-content-center mt-2'>
+            <button className="btn btn-secondary" onClick={() => setSelectedCommerce(null)}>Fermer le menu</button>
           </div>
         </div>
       )}
