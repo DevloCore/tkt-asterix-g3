@@ -30,7 +30,7 @@ const AlertsTable = () => {
           // Récupérer le libellé associé à l'ID de gravité
           graviteLibelle: gravitesResponse.data.find(gravite => gravite.id === avertissement.id_gravite)?.libelle || ''
         }));
-
+        setGravites(gravitesResponse.data);
         setAvertissements(updatedAvertissements);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -49,7 +49,11 @@ const AlertsTable = () => {
   const addAvertissement = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post('/avertissements', newAvertissement);
+      var { data } = await axios.post('/avertissements', newAvertissement);
+      data = {
+        ...data,
+        date: new Date(data.date).toLocaleDateString('fr-FR'),
+      };
       setAvertissements(prev => [...prev, data]);
       setNewAvertissement({ motif: '', id_gravite: '' });
     } catch (error) {
