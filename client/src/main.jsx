@@ -14,6 +14,7 @@ import { UserContext, UserProvider } from './assets/contexts/UserContext.jsx'
 import Boutiques from './Boutiques.jsx'
 import GestionBoutiques from './GestionBoutiques.jsx'
 import Loading from './assets/Loading.jsx'
+import GestionAlerts from './GestionAlerts.jsx'
 
 
 axios.interceptors.request.use((config) => {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
   { path: '/gestionmissions', element: <GestionMissions /> },
   { path: '/boutiques', element: <Boutiques /> },
   { path: '/gestionboutiques', element: <GestionBoutiques /> },
+  { path: '/gestionalerts', element: <GestionAlerts /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

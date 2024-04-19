@@ -1,7 +1,7 @@
 import { login, testIsAdmin } from './controllers/AuthController.js';
 import { isAdmin } from './helper.js';
 import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAttractions, getAttractionsFiltered } from './controllers/AttractionController.js';
-import { getCommerces, getProduitsByCommerceId, updateProductStock,getProducts } from './controllers/CommercesController.js';
+import { getCommerces, getProduitsByCommerceId, updateProductStock,getProducts,getProductQuantityInCommerce } from './controllers/CommercesController.js';
 import { getMissions, getStatutMissions, updateMission, addMission, deleteMission } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
 import { getAlerts,getGravite } from './controllers/AvertissementsController.js';
@@ -36,6 +36,8 @@ export default function(/** @type { import('express').IRouter } */ app) {
     app.get('/commerces', getCommerces);
 
     app.put('/commerces/:id_commerce/produits/:id_produit', updateProductStock);
+    // Définir la route GET pour récupérer la quantité d'un produit dans un commerce
+app.get('/commerces/:id_commerce/produits/:id_produit/quantite', getProductQuantityInCommerce);
 
     app.get('/produits', getProducts);
 

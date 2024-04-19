@@ -65,6 +65,26 @@ export const updateProductStock = async (req, res) => {
     }
 };
 
+export const getProductQuantityInCommerce = async (req, res) => {
+    const { id_commerce, id_produit } = req.params;  // Extraction des paramètres de l'URL
+
+    try {
+        const productInStock = await db('STOCKER')
+            .where({ id_commerce: id_commerce, id_produit: id_produit })
+            .select('quantite')
+            .first();  // Récupérer la quantité du produit spécifié dans le commerce
+
+        if (productInStock) {
+            res.json({ quantite: productInStock.quantite });
+        } else {
+            res.status(404).json({ message: 'Product not found in this commerce' });
+        }
+    } catch (error) {
+        console.error('Error fetching product quantity:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 export const getProducts = async (req, res) => {
     try {
         // Récupérer tous les produits depuis la base de données
