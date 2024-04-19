@@ -19,7 +19,12 @@ const AlertsTable = () => {
           axios.get('/avertissements'),
           axios.get('/gravites')
         ]);
-        setAvertissements(alertsResponse.data);
+        const updatedAvertissements = alertsResponse.data.map(avertissement => ({
+          ...avertissement,
+          // Convertir la date au format 'YYYY-MM-DD'
+          date: new Date(avertissement.date).toLocaleDateString('fr-FR'),
+        }));
+        setAvertissements(updatedAvertissements);
         setGravites(gravitesResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -40,12 +45,17 @@ const AlertsTable = () => {
     const url = editAvertissement.id ? `/avertissements/${editAvertissement.id}` : '/avertissements';
     setLoading(true);
     try {
-      const { data } = await axios[method](url, editAvertissement);
+      var { data } = await axios[method](url, editAvertissement);
+      data = {
+        ...data,
+        date: new Date(data.date).toLocaleDateString('fr-FR'),
+      };
       if (editAvertissement.id) {
         setAvertissements(prev => prev.map(a => a.id === data.id ? data : a));
       } else {
         setAvertissements(prev => [...prev, data]);
       }
+
       setEditAvertissement(null);
     } catch (error) {
       console.error('Failed to save avertissement:', error);
@@ -94,7 +104,7 @@ const AlertsTable = () => {
       ) : (
         <button onClick={() => startEdit({ motif: '', id_gravite: '' })}>Add New</button>
       )}
-      <table className="mission-table">
+      <table className="table table-danger table-striped mTable">
         <thead>
           <tr>
             <th>ID</th>
@@ -114,8 +124,8 @@ const AlertsTable = () => {
               <td>{gravites.find(g => g.id === avertissement.id_gravite)?.libelle}</td>
               <td>{avertissement.email_utilisateur}</td>
               <td>
-                <button onClick={() => startEdit(avertissement)}>Edit</button>
-                <button onClick={() => deleteAvertissement(avertissement.id)}>Delete</button>
+                <button className="btn btn-primary" onClick={() => startEdit(avertissement)}>Modifier</button>
+                <button className="btn btn-danger" onClick={() => deleteAvertissement(avertissement.id)}>Supprimer</button>
               </td>
             </tr>
           ))}

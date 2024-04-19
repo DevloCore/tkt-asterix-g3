@@ -1,4 +1,5 @@
 import db from '../db.js';
+import { getUserPayload } from '../helper.js';
 
 // Fonction pour récupérer toutes les attractions depuis la base de données
 export const getAlerts = async (req, res) => {
@@ -30,14 +31,17 @@ export const getGravite = async (req, res) => {
 
 export const createAvertissement = async (req, res) => {
     try {
+        const payload = getUserPayload(req);
+        if(!payload) { res.status(404); return; }
+
         const avertissement = {
             ...req.body,
             date: new Date(), // Utiliser la date actuelle
-            email_utilisateur: req.body.email_utilisateur // Assumer que l'email est envoyé dans le corps de la requête
+            email_utilisateur: payload.email
         };
 
-        const [id] = await db('Avertissements').insert(avertissement).returning('id');
-        const newAvertissement = await db('Avertissements').where({ id }).first();
+        const [id] = await db('Avertissement').insert(avertissement).returning('id');
+        const newAvertissement = await db('Avertissement').where({ id }).first();
         res.status(201).json(newAvertissement);
     } catch (error) {
         console.error('Error creating avertissement:', error);
