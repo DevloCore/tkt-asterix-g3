@@ -188,32 +188,6 @@ function Menu() {
         ))}
 
       </div>
-
-      <div>
-        <h3>Commerces :</h3>
-        <ul className="commerces-list"> {/* Appliquer une classe CSS à votre liste de commerces */}
-          {commerces.map((commerce) => (
-            <li key={commerce.id} onClick={() => handleCommerceClick(commerce.id)}>
-              {commerce.id} - {commerce.libelle}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Affichage du stock dans un pop-up */}
-      {selectedCommerce && (
-        <div className="popup">
-          <div className="popup-content">
-            <h3>Stock restant pour le commerce {selectedCommerce} :</h3>
-            <ul>
-              {stock && stock.map(item => (
-                <li key={item.id_produit}>{item.libelleProduit}: {item.quantite}</li>
-              ))}
-            </ul>
-            <button onClick={() => setSelectedCommerce(null)}>Fermer</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
