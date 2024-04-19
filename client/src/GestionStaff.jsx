@@ -198,7 +198,7 @@ const UsersTable = () => {
         />
         <button onClick={addUser}>Ajouter</button>
       </div>
-      <table className="mission-table">
+      <table className="table table-primary table-striped mTable">
         <thead>
           <tr>
             <th>Email</th>

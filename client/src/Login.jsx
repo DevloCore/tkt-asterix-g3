@@ -7,7 +7,13 @@ import { UserContext } from './assets/contexts/UserContext';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { setUser, setLoading } = useContext(UserContext);
+    const { user, setUser, setLoading } = useContext(UserContext);
+
+    if(localStorage.getItem('apiToken')) {
+        setTimeout(() => {
+            navigate('/');
+        }, 1);
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);

@@ -41,7 +41,7 @@ const MissionTable = () => {
   return (
     <div>
       <div class="someTitle missions">Missions</div>
-      <table className="mission-table">
+      <table className="table table-warning table-striped mTable">
         <thead>
           <tr>
             <th>ID</th>
