@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './assets/navbar.css';
 import { UserContext } from './assets/contexts/UserContext';
+import Icon from '@mdi/react';
+import { mdiShieldCrown } from '@mdi/js';
 
 const Navbar = ({ router }) => {
   const { user } = useContext(UserContext);
@@ -67,13 +69,16 @@ const Navbar = ({ router }) => {
             )}
           </ul>
           <ul className="navbar-nav ms-auto">
+          
             {!user && (
               <li className="nav-item">
                 <button className={`btn btn-success ${isActive('/login')}`} onClick={() => navigate("/login")}>Connexion</button>
               </li>
             )}
+            
             {user && (
               <li className="nav-item">
+                {user.admin===1 &&(<Icon path={mdiShieldCrown} size={1} className='me-1'/>)}<span className='fw-bold me-3'>{user.email}</span>
                 <button className="btn btn-danger" onClick={() => {
                   localStorage.removeItem("apiToken");
                   localStorage.removeItem("user");
@@ -81,6 +86,7 @@ const Navbar = ({ router }) => {
                 }}>Se Déconnecter</button>
               </li>
             )}
+            
           </ul>
         </div>
       </div>
