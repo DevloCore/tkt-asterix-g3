@@ -71,28 +71,27 @@ function Menu() {
     fetchProductQuantity();
   };
   
-  
-
   const handleQuantityChange = (e) => {
     setNewProductQuantity(e.target.value);
   };
 
   return (
-    <div>
-      <h3>Boutiques :</h3>
-      <ul className="commerces-list">
+    <div className="container">
+      <div className='d-flex justify-content-center'><h4>Boutiques</h4></div>
+      <div className="commerces-list list-group">
         {commerces.map((commerce) => (
-          <li key={commerce.id} onClick={() => handleCommerceClick(commerce.id)}>
+          <div className='list-group-item list-group-item-action' key={commerce.id} onClick={() => handleCommerceClick(commerce.id)}>
             {commerce.id} - {commerce.libelle}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {selectedCommerce && (
-        <div className="popup">
+        <div className="popup mt-4">
           <div className="popup-content">
-            <h3>Stock du Commerce {selectedCommerce} :</h3>
+          <div className='d-flex justify-content-center'><h4>Stock du commerce <span className='text-success fw-bold'>{selectedCommerce}</span></h4></div>
             <select
+              className="form-select"
               onChange={(e) => handleSelectProduct(e.target.value)}
               value={selectedProduct}
               disabled={stock.length === 0} // Désactive le select si stock n'est pas encore chargé
@@ -104,21 +103,24 @@ function Menu() {
             </select>
 
             {selectedProduct && (
-            <div>
-              <h4>Quantité Actuelle pour {products.find(p => p.id === selectedProduct)?.libelleProduit}:</h4>
-              <input
-                type="number"
-                value={newProductQuantity}
-                onChange={handleQuantityChange}
-              />
-              <button onClick={() => updateProductQuantity(selectedProduct, newProductQuantity)}>
-                Mettre à jour Quantité
-              </button>
+              <div className='d-flex justify-content-center mt-2'>
+              <button className="btn btn-secondary" onClick={() => setSelectedCommerce(null)}>Fermer le menu</button>
             </div>
-          )}
-
-
-            <button onClick={() => setSelectedCommerce(null)}>Close</button>
+            )}
+              </div>
+              <div className='mt-4'>
+                <div className='d-flex justify-content-center'><h4>Quantité actuelle pour <span className='text-primary fw-bold'>{products.find(p => p.id == selectedProduct)?.libelleProduit}</span></h4></div>
+                <input
+                  className="form-control"
+                  type="number"
+                  value={newProductQuantity}
+                  onChange={handleQuantityChange}
+                />
+                <div className='d-flex justify-content-center mt-2'>
+                  <button className="btn btn-primary" onClick={() => updateProductQuantity(selectedProduct, newProductQuantity)}>
+                    Mettre à jour quantité
+                  </button>
+                </div>
           </div>
         </div>
       )}
