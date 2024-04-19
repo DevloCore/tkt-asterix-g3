@@ -21,7 +21,7 @@ const AlertsTable = () => {
         const updatedAvertissements = alertsResponse.data.map(avertissement => ({
           ...avertissement,
           // Convertir la date au format 'YYYY-MM-DD'
-          date: new Date(avertissement.date).toLocaleDateString('en-GB'),
+          date: new Date(avertissement.date).toLocaleDateString('fr-FR'),
           // Récupérer le libellé associé à l'ID de gravité
           graviteLibelle: gravitesResponse.data.find(gravite => gravite.id === avertissement.id_gravite)?.libelle || ''
         }));
