@@ -183,15 +183,15 @@ const MissionsTable = () => {
       <div className="collapse mb-2" id='collapseAdd'>
         <div className="card card-body bg-light p-4">
           <h2>{newMission.id ? 'Modifier une mission' : 'Ajouter une mission'} :</h2>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="libelle">Libellé:</label>
             <input type="text" className="form-control" id="libelle" name="libelle" placeholder="Libellé" value={newMission.libelle} onChange={handleInputChange} />
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="date">Date:</label>
             <input type="date" className="form-control" id="date" name="date" value={newMission.date} onChange={handleInputChange} />
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="id_statut_mission">Statut:</label>
             <select className="form-control" id="id_statut_mission" name="id_statut_mission" value={newMission.id_statut_mission} onChange={handleInputChange}>
               <option value="">Sélectionnez un statut</option>
@@ -200,7 +200,7 @@ const MissionsTable = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="id_commerce">Commerce:</label>
             <select className="form-control" id="id_commerce" name="id_commerce" value={newMission.id_commerce} onChange={handleInputChange}>
               <option value="">Sélectionnez un commerce</option>
@@ -209,7 +209,7 @@ const MissionsTable = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="id_attraction">Attraction:</label>
             <select className="form-control" id="id_attraction" name="id_attraction" value={newMission.id_attraction} onChange={handleInputChange}>
               <option value="">Sélectionnez une attraction</option>
@@ -218,7 +218,7 @@ const MissionsTable = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="id_metier">Métier:</label>
             <select className="form-control" id="id_metier" name="id_metier" value={newMission.id_metier} onChange={handleInputChange}>
               <option value="">Sélectionnez un métier</option>
@@ -227,7 +227,7 @@ const MissionsTable = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="email_utilisateur">Email de l'utilisateur:</label>
             <select className="form-control" id="email_utilisateur" name="email_utilisateur" value={newMission.email_utilisateur} onChange={handleInputChange}>
               <option value="">Sélectionnez un email</option>
@@ -236,11 +236,11 @@ const MissionsTable = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <label htmlFor="commentaire">Commentaire:</label>
             <input type="text" className="form-control" id="commentaire" name="commentaire" placeholder="Commentaire" value={newMission.commentaire} onChange={handleInputChange} />
           </div>
-          <button className="btn btn-primary mt-4" onClick={addOrUpdateMission}>
+          <button className="btn btn-primary" onClick={addOrUpdateMission}>
             {newMission.id ? 'Modifier' : 'Ajouter'}
           </button>
         </div>

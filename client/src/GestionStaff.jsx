@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './assets/Missions.css';
 import { UserContext } from './assets/contexts/UserContext';
+import Icon from '@mdi/react';
+import { mdiPlus } from '@mdi/js';
 
 const UsersTable = () => {
   const { setLoading } = useContext(UserContext);
@@ -76,7 +78,7 @@ const UsersTable = () => {
   };
 
   const deleteUser = async (userId) => {
-    if(window.confirm("Voulez vous vraiment supprimer l'utilisateur "+ userId + " ?")) {
+    if (window.confirm("Voulez vous vraiment supprimer l'utilisateur " + userId + " ?")) {
       try {
         setLoading(true);
 
@@ -109,8 +111,10 @@ const UsersTable = () => {
       setLoading(false);
     }
   };
-  
+
   const handleEditClick = (userId) => {
+    document.getElementById('collapseAdd').classList.remove('show');
+    document.getElementById('expandForm').classList.add("importantHide");
     // Récupérer les informations de l'utilisateur sélectionné
     const selectedUser = users.find(user => user.email === userId);
     if (selectedUser) {
@@ -145,58 +149,85 @@ const UsersTable = () => {
 
   return (
     <div>
-      <div class="someTitle admin">Gestion du Staff</div>
-      <div>
-        <h2>Ajouter un utilisateur :</h2>
-        <input 
-          type="text" 
-          name="email" 
-          placeholder="Email" 
-          value={newUser.email} 
-          onChange={handleInputChange} 
-        />
-        <input 
-          type="text" 
-          name="nom" 
-          placeholder="Nom" 
-          value={newUser.nom} 
-          onChange={handleInputChange} 
-        />
-        <input 
-          type="text" 
-          name="prenom" 
-          placeholder="Prénom" 
-          value={newUser.prenom} 
-          onChange={handleInputChange} 
-        />
-        <select 
-          name="id_equipe" 
-          value={newUser.id_equipe} 
-          onChange={handleInputChange}
-        >
-          <option value="">Sélectionnez une équipe</option>
-          {equipes.map(equipe => (
-            <option key={equipe.id} value={equipe.id}>{equipe.libelle}</option>
-          ))}
-        </select>
-        <select 
-          name="id_metier" 
-          value={newUser.id_metier} 
-          onChange={handleInputChange}
-        >
-          <option value="">Sélectionnez un métier</option>
-          {metiers.map(metier => (
-            <option key={metier.id} value={metier.id}>{metier.libelle}</option>
-          ))}
-        </select>
-        <input 
-          type="password" 
-          name="password" 
-          placeholder="Mot de passe" 
-          value={newUser.password} 
-          onChange={handleInputChange} 
-        />
-        <button onClick={addUser}>Ajouter</button>
+      <div className="someTitle admin">Gestion du Staff</div>
+
+      <div className="d-flex justify-content-center mb-2" id="expandForm">
+        <button className="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target={`#collapseAdd`} aria-expanded="false" aria-controls="collapseExample">
+          <Icon path={mdiPlus} size={1} /> Afficher le formulaire de gestion
+        </button>
+      </div>
+
+      <div className="collapse mb-2" id='collapseAdd'>
+        <div className="card card-body bg-light p-4">
+          <h2>Ajouter un utilisateur :</h2>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              name="email"
+              placeholder="Email"
+              value={newUser.email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              name="nom"
+              placeholder="Nom"
+              value={newUser.nom}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              name="prenom"
+              placeholder="Prénom"
+              value={newUser.prenom}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group mb-3">
+            <select
+              className="form-select"
+              name="id_equipe"
+              value={newUser.id_equipe}
+              onChange={handleInputChange}
+            >
+              <option value="">Sélectionnez une équipe</option>
+              {equipes.map(equipe => (
+                <option key={equipe.id} value={equipe.id}>{equipe.libelle}</option>
+              ))}
+            </select>
+          </div>
+          <div className="input-group mb-3">
+            <select
+              className="form-select"
+              name="id_metier"
+              value={newUser.id_metier}
+              onChange={handleInputChange}
+            >
+              <option value="">Sélectionnez un métier</option>
+              {metiers.map(metier => (
+                <option key={metier.id} value={metier.id}>{metier.libelle}</option>
+              ))}
+            </select>
+          </div>
+          <div className="input-group mb-3">
+            <input
+              type="password"
+              className="form-control"
+              name="password"
+              placeholder="Mot de passe"
+              value={newUser.password}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button className="btn btn-primary" onClick={addUser}>Ajouter</button>
+        </div>
       </div>
       <table className="table table-primary table-striped mTable">
         <thead>
@@ -210,72 +241,87 @@ const UsersTable = () => {
           </tr>
         </thead>
         <tbody>
-        {users.map(user => (
+          {users.map(user => (
             <tr key={user.email}>
               <td>
                 {editingUser === user.email ? (
-                  <input 
-                    type="text" 
-                    value={newUser.email} 
-                    style={{ maxWidth: '128px'}}
-                    onChange={e => setNewUser(prevState => ({ ...prevState, email: e.target.value }))} 
-                  />
+                  <div className="input-group mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newUser.email}
+                      style={{ maxWidth: '128px' }}
+                      onChange={e => setNewUser(prevState => ({ ...prevState, email: e.target.value }))}
+                    />
+                  </div>
                 ) : (
                   user.email
                 )}
               </td>
               <td>
                 {editingUser === user.email ? (
-                  <input 
-                    type="text" 
-                    value={newUser.nom} 
-                    style={{ maxWidth: '92px'}}
-                    onChange={e => setNewUser(prevState => ({ ...prevState, nom: e.target.value }))} 
-                  />
+                  <div className="input-group mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newUser.nom}
+                      style={{ maxWidth: '92px' }}
+                      onChange={e => setNewUser(prevState => ({ ...prevState, nom: e.target.value }))}
+                    />
+                  </div>
                 ) : (
                   user.nom
                 )}
               </td>
               <td>
                 {editingUser === user.email ? (
-                  <input 
-                    type="text" 
-                    value={newUser.prenom}
-                    style={{ maxWidth: '92px'}}
-                    onChange={e => setNewUser(prevState => ({ ...prevState, prenom: e.target.value }))} 
-                  />
+                  <div className="input-group mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newUser.prenom}
+                      style={{ maxWidth: '92px' }}
+                      onChange={e => setNewUser(prevState => ({ ...prevState, prenom: e.target.value }))}
+                    />
+                  </div>
                 ) : (
                   user.prenom
                 )}
               </td>
               <td>
                 {editingUser === user.email ? (
-                  <select 
-                    value={newUser.id_equipe}
-                    style={{ maxWidth: '128px'}}
-                    onChange={e => setNewUser(prevState => ({ ...prevState, id_equipe: e.target.value }))} 
-                  >
-                    <option value="">Sélectionnez une équipe</option>
-                    {equipes.map(equipe => (
-                      <option key={equipe.id} value={equipe.id}>{equipe.libelle}</option>
-                    ))}
-                  </select>
+                  <div className="input-group mb-3">
+                    <select
+                      className="form-select"
+                      value={newUser.id_equipe}
+                      style={{ maxWidth: '128px' }}
+                      onChange={e => setNewUser(prevState => ({ ...prevState, id_equipe: e.target.value }))}
+                    >
+                      <option value="">Sélectionnez une équipe</option>
+                      {equipes.map(equipe => (
+                        <option key={equipe.id} value={equipe.id}>{equipe.libelle}</option>
+                      ))}
+                    </select>
+                  </div>
                 ) : (
                   equipes.find(equipe => equipe.id === user.id_equipe)?.libelle
                 )}
               </td>
               <td>
                 {editingUser === user.email ? (
-                  <select 
-                    value={newUser.id_metier} 
-                    style={{ maxWidth: '128px'}}
-                    onChange={e => setNewUser(prevState => ({ ...prevState, id_metier: e.target.value }))} 
-                  >
-                    <option value="">Sélectionnez un métier</option>
-                    {metiers.map(metier => (
-                      <option key={metier.id} value={metier.id}>{metier.libelle}</option>
-                    ))}
-                  </select>
+                  <div className="input-group mb-3">
+                    <select
+                      className="form-select"
+                      value={newUser.id_metier}
+                      style={{ maxWidth: '128px' }}
+                      onChange={e => setNewUser(prevState => ({ ...prevState, id_metier: e.target.value }))}
+                    >
+                      <option value="">Sélectionnez un métier</option>
+                      {metiers.map(metier => (
+                        <option key={metier.id} value={metier.id}>{metier.libelle}</option>
+                      ))}
+                    </select>
+                  </div>
                 ) : (
                   metiers.find(metier => metier.id === user.id_metier)?.libelle
                 )}
@@ -284,15 +330,14 @@ const UsersTable = () => {
                 {/* Vérifier si l'utilisateur est administrateur */}
                 {user.isAdmin !== 1 && (
                   <>
-                    
-                    <button onClick={() => deleteUser(user.email)}>Supprimer</button>
+                    <button className="btn btn-danger" onClick={() => deleteUser(user.email)}>Supprimer</button>
                   </>
                 )}
                 {editingUser === user.email ? (
-                      <button onClick={() => handleConfirmEdit(user.email)}>Confirmer</button>
-                    ) : (
-                      <button onClick={() => handleEditClick(user.email)}>Modifier</button>
-                    )}
+                  <button className="btn btn-success" onClick={() => handleConfirmEdit(user.email)}>Confirmer</button>
+                ) : (
+                  <button className="btn btn-primary" onClick={() => handleEditClick(user.email)}>Modifier</button>
+                )}
               </td>
             </tr>
           ))}
@@ -300,6 +345,6 @@ const UsersTable = () => {
       </table>
     </div>
   );
-};  
+};
 
 export default UsersTable;

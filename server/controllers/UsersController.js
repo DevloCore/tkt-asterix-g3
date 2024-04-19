@@ -44,7 +44,7 @@ export const addUtilisateur = async (req, res) => {
 export const updateUtilisateur = async (req, res) => {
     try {
         const { email } = req.params; // Utilisez l'email comme paramètre
-        const { password, nom, prenom, isAdmin, id_equipe, id_metier } = req.body;
+        const { nom, prenom, isAdmin, id_equipe, id_metier } = req.body;
 
         // Vérification si l'utilisateur existe avec l'email
         const existingUser = await db('UTILISATEUR').where('email', email).first();
@@ -53,14 +53,13 @@ export const updateUtilisateur = async (req, res) => {
         }
 
         // Hash du nouveau mot de passe si fourni
-        let hashedPassword;
-        if (password) {
-            hashedPassword = await bcrypt.hash(password, 12);
-        }
+        // let hashedPassword;
+        // if (password) {
+        //     hashedPassword = await bcrypt.hash(password, 12);
+        // }
 
         // Mise à jour des données de l'utilisateur dans la base de données
         await db('UTILISATEUR').where('email', email).update({
-            password: hashedPassword || existingUser.password,
             nom: nom || existingUser.nom,
             prenom: prenom || existingUser.prenom,
             isAdmin: isAdmin !== undefined ? isAdmin : existingUser.isAdmin,
