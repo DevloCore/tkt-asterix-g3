@@ -80,24 +80,13 @@ const MissionsTable = () => {
 
   const addOrUpdateMission = async () => {
     const method = newMission.id ? 'patch' : 'post';
-    const url = newMission.id ? `/editmission/${newMission.id}` : 'addmission';
+    const url = newMission.id ? `/admin/editmission/${newMission.id}` : 'admin/addmission';
 
     try {
+      setLoading(true);
       await axios[method](url, newMission);
       refreshData();
-      setLoading(true);
-
-      await axios.post('admin/addmission', newMission);
-      setNewMission({
-        libelle: '',
-        date: '',
-        email_utilisateur: '',
-        id_statut_mission: '',
-        id_commerce: '',
-        id_attraction: '',
-        commentaire: '',
-        id_metier: ''
-      });
+      
     } catch (error) {
       console.error('Error adding/updating mission:', error);
     }
@@ -164,11 +153,17 @@ const MissionsTable = () => {
 
   const handleEditMission = (mission) => {
     document.getElementById('collapseAdd').classList.add('show');
-    setNewMission(mission);
+    const today = new Date().toISOString().slice(0, 10); // Obtient la date du jour au format YYYY-MM-DD
+    setNewMission({
+      ...mission,
+      date: today // Définit la date du jour pour la mission en cours de modification
+    });
+  
     if (mission.id_metier) {
       filterUsersByMetier(mission.id_metier);
     }
   };
+  
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };

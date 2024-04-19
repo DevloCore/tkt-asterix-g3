@@ -4,7 +4,7 @@ import { getAttractions, getImagesByAttractionId, getThemes,getType,getStatutAtt
 import { getCommerces, getProduitsByCommerceId, updateProductStock,getProducts,getProductQuantityInCommerce } from './controllers/CommercesController.js';
 import { getMissions, getStatutMissions, updateMission, addMission, deleteMission } from './controllers/MissionsController.js';
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
-import { getAlerts,getGravite } from './controllers/AvertissementsController.js';
+import { getAlerts,getGravite,createAvertissement,updateAvertissement,deleteAvertissement } from './controllers/AvertissementsController.js';
 import { getUtilisateurs, addUtilisateur, deleteUtilisateur, updateUtilisateur } from './controllers/UsersController.js';
 
 export default function(/** @type { import('express').IRouter } */ app) {
@@ -67,7 +67,9 @@ app.get('/commerces/:id_commerce/produits/:id_produit/quantite', getProductQuant
 
     // Route GET pour récupérer les alerts
     app.get('/avertissements', getAlerts);
-
+    app.post('/avertissements', createAvertissement);
+    app.put('/avertissements/:id', updateAvertissement);
+    app.delete('/avertissements/:id', deleteAvertissement);
     // Route GET pour récupérer les gravités
     app.get('/gravites', getGravite);
 
