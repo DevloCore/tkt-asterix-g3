@@ -26,6 +26,7 @@ const AlertsTable = () => {
         }));
         setAvertissements(updatedAvertissements);
         setGravites(gravitesResponse.data);
+        
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
