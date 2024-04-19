@@ -20,16 +20,15 @@ export const getAttractionsFiltered = async (req, res) => {
         const taille = req.query.taille;
         const theme = req.query.theme;
         const estAccompagne = req.query.estAccompagne;
-        console.log(estAccompagne)
         // Récupérer toutes les attractions depuis la base de données en utilisant knex
-        const request = db.pluck("id").from('ATTRACTION')
-            .where('id_theme', theme)
-            .andWhere((qb) => {
+        var request = db.pluck("id").from('ATTRACTION')
+            .where((qb) => {
                 qb.where('taille_min', "<=", taille)
                 if(estAccompagne == "true") {
                     qb.orWhere('taille_min_acc', "<=", taille);
                 }
             });
+        if(theme && theme != -1) request = request.andWhere('id_theme', theme);
 
         const attractions = await request;
         
