@@ -6,6 +6,7 @@ import { getMissions, getStatutMissions, updateMission, addMission, deleteMissio
 import { getMetiers,getEquipes } from './controllers/EquipesController.js';
 import { getAlerts,getGravite,createAvertissement,updateAvertissement,deleteAvertissement } from './controllers/AvertissementsController.js';
 import { getUtilisateurs, addUtilisateur, deleteUtilisateur, updateUtilisateur } from './controllers/UsersController.js';
+import { addBillet,deleteBillet,updateBillet,getAllBillets} from './controllers/BilleterieController.js';
 
 export default function(/** @type { import('express').IRouter } */ app) {
     // Définir la route POST pour la connexion
@@ -81,4 +82,9 @@ app.get('/commerces/:id_commerce/produits/:id_produit/quantite', getProductQuant
     app.patch('/edituser/:email', updateUtilisateur);
     // Route DELETE pour supprimer un utilisateur par email
     app.delete('/deleteuser/:email', deleteUtilisateur);
+
+    app.post('/billet', addBillet);
+    app.put('/billet/:id', updateBillet);
+    app.delete('/billet/:id', deleteBillet);
+    app.get('/billets', getAllBillets);
 }
