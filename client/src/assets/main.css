@@ -51,7 +51,9 @@ background-size: cover;
 .someTitle.avertissements {
     background-color: #8b3800;
 }
-
+.someTitle.billetterie {
+    background-color: #1de5db;
+}
 .mTable {
     border: 1px solid #53535379;
 }

@@ -50,6 +50,9 @@ const Navbar = ({ router }) => {
             <li className="nav-item">
               <span className={`nav-link ${isActive('/avertissements')}`} onClick={() => navigate("/avertissements")}>Avertissements</span>
             </li>
+            <li className="nav-item">
+                <span className={`nav-link ${isActive('/billetterie')}`} onClick={() => navigate("/billetterie")}>Billetterie</span>
+              </li>
             {user && user.admin === 1 && (
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,6 +68,11 @@ const Navbar = ({ router }) => {
             {user && user.metier === 5 && (
               <li className="nav-item">
                 <span className={`nav-link ${isActive('/gestionboutiques')}`} onClick={() => navigate("/gestionboutiques")}>Gestion Boutiques</span>
+              </li>
+            )}
+            {user && user.metier === 3 && (
+              <li className="nav-item">
+                <span className={`nav-link ${isActive('/gestionbilleterie')}`} onClick={() => navigate("/gestionbilleterie")}>Gestion Billetterie</span>
               </li>
             )}
           </ul>

@@ -15,6 +15,8 @@ import Boutiques from './Boutiques.jsx'
 import GestionBoutiques from './GestionBoutiques.jsx'
 import Loading from './assets/Loading.jsx'
 import GestionAlerts from './GestionAlerts.jsx'
+import GestionBilleterie from './GestionBilleterie.jsx'
+import Billetterie from './Billetterie.jsx'
 
 
 axios.interceptors.request.use((config) => {
@@ -37,6 +39,8 @@ const router = createBrowserRouter([
   { path: '/boutiques', element: <Boutiques /> },
   { path: '/gestionboutiques', element: <GestionBoutiques /> },
   { path: '/gestionalerts', element: <GestionAlerts /> },
+  { path: '/gestionbilleterie', element: <GestionBilleterie /> },
+  { path: '/billetterie', element: <Billetterie /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
